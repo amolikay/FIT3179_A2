@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Constellation: A Global Guide to Michelin Stars</title>
+    
+    <!-- Vega-Lite Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    
+    <!-- Pure.css for simple, clean layout -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
+    
+    <!-- Custom Styles -->
+    <style>
+        body { font-family: 'Georgia', serif; background-color: #f8f8f8; color: #333; padding: 0 2em; }
+        .container { max-width: 900px; margin: 2em auto; }
+        h1, h2, h3 { font-family: 'Helvetica Neue', sans-serif; font-weight: 300; text-align: center; }
+        h1 { font-size: 3em; margin-bottom: 0; }
+        .subtitle { font-size: 1.2em; text-align: center; color: #777; margin-bottom: 3em; }
+        .section { margin-bottom: 4em; }
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2em;
+            align-items: start;
+        }
+        .narrative { line-height: 1.6; font-size: 1.1em; margin-bottom: 1.5em; text-align: center; }
+        .chart-container { border: 1px solid #e0e0e0; padding: 1.5em; border-radius: 4px; background-color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .full-width { grid-column: 1 / -1; } /* Spans the full grid width */
+        .footer { text-align: center; margin-top: 4em; color: #999; font-size: 0.9em; }
+        /* Responsive Grid */
+        @media (max-width: 768px) {
+            .grid-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>The Constellation</h1>
+            <p class="subtitle">An interactive analysis of the world's most celebrated restaurants.</p>
+        </header>
+
+        <!-- SECTION 1: THE GLOBAL VIEW -->
+        <div class="section chart-container">
+            <h2>Where in the World is Culinary Greatness?</h2>
+            <p class="narrative">
+                Michelin stars serve as a global benchmark for culinary excellence. This map reveals the hotspots of the fine dining world. Hover over a point to see details, or use the legend to filter by star rating.
+            </p>
+            <div id="vis1"></div>
+        </div>
+
+        <!-- SECTION 2: A TALE OF CITIES AND COUNTRIES -->
+        <div class="section grid-container">
+            <div class="chart-container">
+                <h3>Top 10 Culinary Nations</h3>
+                <p class="narrative">A few countries stand as titans of the industry. France and Japan lead, showcasing a deep-rooted culinary history.</p>
+                <div id="vis2"></div>
+            </div>
+            <div class="chart-container">
+                <h3>Top 10 Culinary Capitals</h3>
+                <p class="narrative">Fine dining is an urban affair. This chart pinpoints the specific cities that are epicenters of gastronomy.</p>
+                <div id="vis5"></div>
+            </div>
+        </div>
+        
+        <!-- SECTION 3: DEEPER INSIGHTS -->
+        <div class="section grid-container">
+            <div class="chart-container full-width">
+                 <h2>A Truer Measure of Excellence</h2>
+                 <p class="narrative">Having the most stars is one thing, but which countries have the most stars *per person*? By combining restaurant data with world population figures, this map uncovers the nations where fine dining is most deeply woven into the cultural fabric, revealing true culinary density.</p>
+                <div id="vis3"></div>
+            </div>
+            <div class="chart-container">
+                <h3>The Rise of Sustainable Dining</h3>
+                <p class="narrative">The Green Star for sustainability is a modern and vital award. This chart shows which nations are leading the charge in eco-conscious fine dining.</p>
+                <div id="vis6"></div>
+            </div>
+             <div class="chart-container">
+                <h3>The Price of Excellence</h3>
+                <p class="narrative">What does a Michelin-starred meal cost? This chart shows the distribution of restaurants across different price categories, revealing the accessibility of fine dining.</p>
+                <div id="vis7"></div>
+            </div>
+        </div>
+
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <p><strong>Author:</strong> [Your Name Here]</p>
+            <p><strong>Date:</strong> 13 October 2025</p>
+            <p><strong>Data Sources:</strong></p>
+            <p>1. Michelin Star Restaurants (2024). Retrieved from: [Provide Full, Formatted URL to Kaggle Dataset]</p>
+            <p>2. World Population Data. Retrieved from: [Provide Full, Formatted URL to Population Dataset]</p>
+        </footer>
+    </div>
+
+<script>
+    // Note: All Vega-Lite JSON is defined here.
+    // Make sure 'michelin.csv', 'country_data.csv', and 'world-countries.json' are in the same directory.
+
+    // VISUALISATION 1: INTERACTIVE WORLD MAP
+    const spec1 = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "width": "container", "height": 450,
+      "data": { "url": "michelin.csv" },
+      "projection": { "type": "naturalEarth1" },
+      "layer": [
+        {
+          "data": { "url": "world-countries.json", "format": { "type": "topojson", "feature": "countries" } },
+          "mark": { "type": "geoshape", "fill": "#f0f0f0", "stroke": "#fff" }
+        },
+        {
+          "params": [{"name": "award_selection", "select": {"type": "point", "fields": ["Award"]}, "bind": "legend"}],
+          "mark": { "type": "circle", "size": 50 },
+          "encoding": {
+            "longitude": { "field": "Longitude", "type": "quantitative" },
+            "latitude": { "field": "Latitude", "type": "quantitative" },
+            "color": {
+              "field": "Award", "type": "nominal", "title": "Star Rating",
+              "scale": { "domain": ["3 Stars", "2 Stars", "1 Star"], "range": ["#FFD700", "#C0C0C0", "#CD7F32"] }
+            },
+            "opacity": { "condition": {"param": "award_selection", "value": 0.8}, "value": 0.1 },
+            "tooltip": [
+              { "field": "Name", "type": "nominal", "title": "Restaurant" },
+              { "field": "Location", "type": "nominal" },
+              { "field": "Award", "type": "nominal", "title": "Rating" }
+            ]
+          }
+        }
+      ]
+    };
+
+    // VISUALISATION 2: TOP COUNTRIES BAR CHART
+    const spec2 = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "width": "container", "height": 300,
+      "data": { "url": "michelin.csv" },
+      "transform": [
+        {"aggregate": [{"op": "count", "as": "count"}], "groupby": ["Country"]},
+        {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "count", "order": "descending"}]},
+        {"filter": "datum.rank <= 10"}
+      ],
+      "mark": "bar",
+      "encoding": {
+        "y": { "field": "Country", "type": "nominal", "sort": "-x", "axis": {"labelAngle": 0} },
+        "x": { "field": "count", "type": "quantitative", "title": "Number of Restaurants" }
+      }
+    };
+    
+    // VISUALISATION 5: TOP CITIES BAR CHART
+    const spec5 = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "width": "container", "height": 300,
+      "data": { "url": "michelin.csv" },
+      "transform": [
+        {"aggregate": [{"op": "count", "as": "count"}], "groupby": ["Location"]},
+        {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "count", "order": "descending"}]},
+        {"filter": "datum.rank <= 10"}
+      ],
+      "mark": "bar",
+      "encoding": {
+        "y": { "field": "Location", "type": "nominal", "sort": "-x", "axis": {"labelAngle": 0} },
+        "x": { "field": "count", "type": "quantitative", "title": "Number of Restaurants" }
+      }
+    };
+
+    // VISUALISATION 3: CHOROPLETH MAP (REQUIRES a second data source: country_data.csv)
+    const spec3 = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "width": "container", "height": 450,
+      "projection": {"type": "naturalEarth1"},
+      "data": { "url": "world-countries.json", "format": {"type": "topojson", "feature": "countries"} },
+      "transform": [
+        {
+          "lookup": "properties.name",
+          "from": {
+            "data": {"url": "michelin.csv"},
+            "key": "Country",
+            "fields": ["Name"]
+          },
+          "as": "restaurants"
+        },
+        {
+          "lookup": "properties.name",
+          "from": { "data": {"url": "country_data.csv"}, "key": "Country", "fields": ["Population"] },
+          "as": "pop_data"
+        },
+        {"calculate": "length(datum.restaurants)", "as": "restaurant_count"},
+        {"calculate": "datum.pop_data ? datum.pop_data.Population : 0", "as": "population"},
+        {"filter": "datum.population > 0"},
+        {"calculate": "(datum.restaurant_count / datum.population) * 1000000", "as": "restaurants_per_capita"}
+      ],
+      "mark": {"type": "geoshape", "stroke": "#fff"},
+      "encoding": {
+        "color": {
+          "field": "restaurants_per_capita", "type": "quantitative", "title": "Restaurants per Million People",
+          "scale": {"scheme": "viridis"}
+        },
+        "tooltip": [
+          {"field": "properties.name", "type": "nominal", "title": "Country"},
+          {"field": "restaurant_count", "type": "quantitative", "title": "Total Restaurants"},
+          {"field": "restaurants_per_capita", "type": "quantitative", "title": "Restaurants per Million", "format": ".2f"}
+        ]
+      }
+    };
+    
+    // VISUALISATION 6: SUSTAINABLE DINING (GREEN STARS)
+    const spec6 = {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "width": "container", "height": 300,
+        "data": { "url": "michelin.csv"},
+        "transform": [
+            {"filter": "datum.GreenStar == 1"},
+            {"aggregate": [{"op": "count", "as": "count"}], "groupby": ["Country"]},
+            {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "count", "order": "descending"}]},
+            {"filter": "datum.rank <= 10"}
+        ],
+        "mark": "bar",
+        "encoding": {
+            "y": {"field": "Country", "type": "nominal", "sort": "-x", "title": "Country", "axis": {"labelAngle": 0}},
+            "x": {"field": "count", "type": "quantitative", "title": "Number of Green Stars"}
+        }
+    };
+
+    // VISUALISATION 7: PRICE DISTRIBUTION DONUT CHART
+    const spec7 = {
+        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+        "width": "container", "height": 300,
+        "data": { "url": "michelin.csv"},
+        "transform": [
+            {"filter": "datum.PriceNumeric > 0"}
+        ],
+        "mark": {"type": "arc", "innerRadius": 90, "outerRadius": 120},
+        "encoding": {
+            "theta": {"aggregate": "count", "type": "quantitative"},
+            "color": {
+                "field": "Price", "type": "nominal", "title": "Price Category",
+                "scale": {"scheme": "reds"}
+            },
+            "tooltip": [
+                {"field": "Price", "type": "nominal"},
+                {"aggregate": "count", "type": "quantitative", "title": "Number of Restaurants"}
+            ]
+        }
+    };
+
+
+    // Embed all visualisations into their respective divs
+    vegaEmbed('#vis1', spec1, {actions: false});
+    vegaEmbed('#vis2', spec2, {actions: false});
+    vegaEmbed('#vis3', spec3, {actions: false});
+    vegaEmbed('#vis5', spec5, {actions: false});
+    vegaEmbed('#vis6', spec6, {actions:false});
+    vegaEmbed('#vis7', spec7, {actions:false});
+</script>
+</body>
+</html>
