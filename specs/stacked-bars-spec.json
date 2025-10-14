@@ -14,7 +14,7 @@
     "subtitleFontStyle": "italic"
   },
   "data": {
-    "url": "../data/michelin_by_income.json"
+    "url": "data/michelin_by_income.json"
   },
   "mark": {
     "type": "bar",

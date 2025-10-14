@@ -14,7 +14,7 @@
     "subtitleFontStyle": "italic"
   },
   "data": {
-    "url": "../data/michelin_by_region.json"
+    "url": "data/michelin_by_region.json"
   },
   "mark": {
     "type": "bar",

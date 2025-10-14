@@ -24,7 +24,7 @@
     },
     {
       "data": {
-        "url": "../data/michelin_by_country.json"
+        "url": "data/michelin_by_country.json"
       },
       "projection": {
         "type": "equalEarth"
