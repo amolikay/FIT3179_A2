@@ -1,0 +1,164 @@
+[
+  {
+    "country": "France",
+    "latitude": 46.2276,
+    "longitude": 2.2137,
+    "stars": 630,
+    "income": "High income",
+    "region": "Europe & Central Asia",
+    "restaurants": 631
+  },
+  {
+    "country": "Japan",
+    "latitude": 36.2048,
+    "longitude": 138.2529,
+    "stars": 400,
+    "income": "High income",
+    "region": "East Asia & Pacific",
+    "restaurants": 400
+  },
+  {
+    "country": "Germany",
+    "latitude": 51.1657,
+    "longitude": 10.4515,
+    "stars": 310,
+    "income": "High income",
+    "region": "Europe & Central Asia",
+    "restaurants": 310
+  },
+  {
+    "country": "Italy",
+    "latitude": 41.8719,
+    "longitude": 12.5674,
+    "stars": 348,
+    "income": "High income",
+    "region": "Europe & Central Asia",
+    "restaurants": 348
+  },
+  {
+    "country": "Spain",
+    "latitude": 40.4637,
+    "longitude": -3.7492,
+    "stars": 200,
+    "income": "High income",
+    "region": "Europe & Central Asia",
+    "restaurants": 200
+  },
+  {
+    "country": "Belgium",
+    "latitude": 50.5039,
+    "longitude": 4.4699,
+    "stars": 115,
+    "income": "High income",
+    "region": "Europe & Central Asia",
+    "restaurants": 115
+  },
+  {
+    "country": "Netherlands",
+    "latitude": 52.1326,
+    "longitude": 5.2913,
+    "stars": 130,
+    "income": "High income",
+    "region": "Europe & Central Asia",
+    "restaurants": 130
+  },
+  {
+    "country": "United Kingdom",
+    "latitude": 55.3781,
+    "longitude": -3.436,
+    "stars": 170,
+    "income": "High income",
+    "region": "Europe & Central Asia",
+    "restaurants": 170
+  },
+  {
+    "country": "United States",
+    "latitude": 37.0902,
+    "longitude": -95.7129,
+    "stars": 200,
+    "income": "High income",
+    "region": "North America",
+    "restaurants": 200
+  },
+  {
+    "country": "Switzerland",
+    "latitude": 46.8182,
+    "longitude": 8.2275,
+    "stars": 150,
+    "income": "High income",
+    "region": "Europe & Central Asia",
+    "restaurants": 150
+  },
+  {
+    "country": "Austria",
+    "latitude": 47.5162,
+    "longitude": 14.5501,
+    "stars": 78,
+    "income": "High income",
+    "region": "Europe & Central Asia",
+    "restaurants": 78
+  },
+  {
+    "country": "Denmark",
+    "latitude": 56.2639,
+    "longitude": 9.5018,
+    "stars": 35,
+    "income": "High income",
+    "region": "Europe & Central Asia",
+    "restaurants": 35
+  },
+  {
+    "country": "Hong Kong",
+    "latitude": 22.3193,
+    "longitude": 114.1694,
+    "stars": 80,
+    "income": "High income",
+    "region": "East Asia & Pacific",
+    "restaurants": 80
+  },
+  {
+    "country": "Singapore",
+    "latitude": 1.3521,
+    "longitude": 103.8198,
+    "stars": 60,
+    "income": "High income",
+    "region": "East Asia & Pacific",
+    "restaurants": 60
+  },
+  {
+    "country": "South Korea",
+    "latitude": 35.9078,
+    "longitude": 127.7669,
+    "stars": 70,
+    "income": "High income",
+    "region": "East Asia & Pacific",
+    "restaurants": 70
+  },
+  {
+    "country": "Brazil",
+    "latitude": -14.2350,
+    "longitude": -51.9253,
+    "stars": 20,
+    "income": "Upper middle income",
+    "region": "Latin America & Caribbean",
+    "restaurants": 20
+  },
+  {
+    "country": "China",
+    "latitude": 35.8617,
+    "longitude": 104.1954,
+    "stars": 50,
+    "income": "Upper middle income",
+    "region": "East Asia & Pacific",
+    "restaurants": 50
+  },
+  {
+    "country": "Thailand",
+    "latitude": 15.8700,
+    "longitude": 100.9925,
+    "stars": 35,
+    "income": "Upper middle income",
+    "region": "East Asia & Pacific",
+    "restaurants": 35
+  }
+]

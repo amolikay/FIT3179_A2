@@ -1,0 +1,72 @@
+[
+  {
+    "cuisine": "Modern Cuisine",
+    "stars": 850,
+    "restaurants": 850,
+    "percentage": 25.9,
+    "primary_countries": "France, Germany, Spain"
+  },
+  {
+    "cuisine": "Contemporary",
+    "stars": 480,
+    "restaurants": 480,
+    "percentage": 14.6,
+    "primary_countries": "United Kingdom, Scandinavia, Australia"
+  },
+  {
+    "cuisine": "French",
+    "stars": 420,
+    "restaurants": 420,
+    "percentage": 12.8,
+    "primary_countries": "France, Switzerland, Belgium"
+  },
+  {
+    "cuisine": "Creative",
+    "stars": 320,
+    "restaurants": 320,
+    "percentage": 9.7,
+    "primary_countries": "Spain, Netherlands, Germany"
+  },
+  {
+    "cuisine": "Japanese",
+    "stars": 280,
+    "restaurants": 280,
+    "percentage": 8.5,
+    "primary_countries": "Japan, Hong Kong, Singapore"
+  },
+  {
+    "cuisine": "Italian",
+    "stars": 180,
+    "restaurants": 180,
+    "percentage": 5.5,
+    "primary_countries": "Italy, Switzerland, Germany"
+  },
+  {
+    "cuisine": "Spanish",
+    "stars": 120,
+    "restaurants": 120,
+    "percentage": 3.7,
+    "primary_countries": "Spain, Portugal"
+  },
+  {
+    "cuisine": "Asian Fusion",
+    "stars": 95,
+    "restaurants": 95,
+    "percentage": 2.9,
+    "primary_countries": "United Kingdom, France, Singapore"
+  },
+  {
+    "cuisine": "German",
+    "stars": 85,
+    "restaurants": 85,
+    "percentage": 2.6,
+    "primary_countries": "Germany, Austria"
+  },
+  {
+    "cuisine": "Innovative",
+    "stars": 70,
+    "restaurants": 70,
+    "percentage": 2.1,
+    "primary_countries": "Switzerland, Belgium, Netherlands"
+  }
+]

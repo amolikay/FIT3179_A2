@@ -1,0 +1,146 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 1000,
+  "height": 550,
+  "description": "Interactive world map showing distribution of Michelin-starred restaurants by country, with circle size representing total stars and colour indicating World Bank income classification.",
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/vega/vega/main/docs/data/world-110m.json",
+        "format": {
+          "type": "topojson",
+          "feature": "countries"
+        }
+      },
+      "projection": {
+        "type": "equalEarth"
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#f0f4f8",
+        "stroke": "#e2e8f0",
+        "strokeWidth": 0.5
+      }
+    },
+    {
+      "data": {
+        "url": "../data/michelin_by_country.json"
+      },
+      "projection": {
+        "type": "equalEarth"
+      },
+      "mark": {
+        "type": "circle",
+        "opacity": 0.85,
+        "stroke": "white",
+        "strokeWidth": 2
+      },
+      "encoding": {
+        "longitude": {
+          "field": "longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "latitude",
+          "type": "quantitative"
+        },
+        "size": {
+          "field": "stars",
+          "type": "quantitative",
+          "scale": {
+            "range": [100, 2500],
+            "type": "sqrt"
+          },
+          "legend": {
+            "title": "Michelin Stars",
+            "orient": "bottom-left",
+            "labelFontSize": 11,
+            "titleFontSize": 12,
+            "values": [50, 200, 400, 630]
+          }
+        },
+        "color": {
+          "field": "income",
+          "type": "nominal",
+          "scale": {
+            "domain": [
+              "High income",
+              "Upper middle income",
+              "Lower middle income",
+              "Low income"
+            ],
+            "range": [
+              "#2d3748",
+              "#48bb78",
+              "#ed8936",
+              "#f56565"
+            ]
+          },
+          "legend": {
+            "title": "World Bank Income Classification",
+            "orient": "bottom-right",
+            "labelFontSize": 11,
+            "titleFontSize": 12
+          }
+        },
+        "tooltip": [
+          {
+            "field": "country",
+            "type": "nominal",
+            "title": "Country"
+          },
+          {
+            "field": "stars",
+            "type": "quantitative",
+            "title": "Michelin Stars"
+          },
+          {
+            "field": "income",
+            "type": "nominal",
+            "title": "Income Classification"
+          },
+          {
+            "field": "region",
+            "type": "nominal",
+            "title": "World Region"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          {
+            "longitude": 2.2137,
+            "latitude": 46.2276,
+            "label": "France: 630 ★"
+          }
+        ]
+      },
+      "projection": {
+        "type": "equalEarth"
+      },
+      "mark": {
+        "type": "text",
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "color": "#1a202c",
+        "dy": -15
+      },
+      "encoding": {
+        "longitude": {
+          "field": "longitude",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "latitude",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "label",
+          "type": "nominal"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 900,
+  "height": 320,
+  "description": "Stacked horizontal bar chart showing distribution of Michelin-starred restaurants by income classification and star rating. Demonstrates stark economic concentration in fine dining recognition.",
+  "title": {
+    "text": "Michelin Star Distribution by Income Classification",
+    "subtitle": [
+      "Stacked bars show restaurant counts by star rating within each income tier"
+    ],
+    "fontSize": 18,
+    "fontWeight": "bold",
+    "subtitleFontSize": 12,
+    "subtitleFontStyle": "italic"
+  },
+  "data": {
+    "url": "../data/michelin_by_income.json"
+  },
+  "mark": {
+    "type": "bar",
+    "cornerRadius": 2
+  },
+  "encoding": {
+    "y": {
+      "field": "income",
+      "type": "nominal",
+      "sort": [
+        "High income",
+        "Upper middle income",
+        "Lower middle income",
+        "Low income"
+      ],
+      "title": null,
+      "axis": {
+        "labelFontSize": 12,
+        "labelPadding": 15,
+        "orient": "left"
+      }
+    },
+    "x": {
+      "field": "count",
+      "type": "quantitative",
+      "stack": "zero",
+      "title": "Number of Restaurants",
+      "axis": {
+        "labelFontSize": 11,
+        "grid": true,
+        "gridOpacity": 0.2,
+        "gridColor": "#e2e8f0",
+        "labelAngle": 0,
+        "labelExpr": "datum.value"
+      }
+    },
+    "color": {
+      "field": "starRating",
+      "type": "nominal",
+      "scale": {
+        "domain": [
+          "One Star",
+          "Two Stars",
+          "Three Stars"
+        ],
+        "range": [
+          "#cbd5e0",
+          "#a0aec0",
+          "#2d3748"
+        ]
+      },
+      "legend": {
+        "title": "Star Rating",
+        "orient": "top",
+        "labelFontSize": 11,
+        "titleFontSize": 12,
+        "titlePadding": 8,
+        "columns": 3,
+        "columnPadding": 20
+      }
+    },
+    "tooltip": [
+      {
+        "field": "income",
+        "type": "nominal",
+        "title": "Income Level"
+      },
+      {
+        "field": "starRating",
+        "type": "nominal",
+        "title": "Star Rating"
+      },
+      {
+        "field": "count",
+        "type": "quantitative",
+        "title": "Number of Restaurants"
+      },
+      {
+        "field": "percentage",
+        "type": "quantitative",
+        "title": "Percentage of Total (%)",
+        "format": ".1f"
+      }
+    ]
+  }
+}

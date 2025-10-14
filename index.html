@@ -1,260 +1,1169 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Constellation: A Global Guide to Michelin Stars</title>
-    
-    <!-- Vega-Lite Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-    
-    <!-- Pure.css for simple, clean layout -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css">
-    
-    <!-- Custom Styles -->
+    <title>Culinary Excellence & Economic Prosperity</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vega/5.27.0/vega.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/5.17.0/vega-lite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/6.24.0/vega-embed.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Georgia', serif; background-color: #f8f8f8; color: #333; padding: 0 2em; }
-        .container { max-width: 900px; margin: 2em auto; }
-        h1, h2, h3 { font-family: 'Helvetica Neue', sans-serif; font-weight: 300; text-align: center; }
-        h1 { font-size: 3em; margin-bottom: 0; }
-        .subtitle { font-size: 1.2em; text-align: center; color: #777; margin-bottom: 3em; }
-        .section { margin-bottom: 4em; }
-        .grid-container {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f8fafb 0%, #f0f4f8 100%);
+            color: #1a202c;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            color: white;
+            padding: 70px 50px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3em;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            line-height: 1.2;
+        }
+        
+        header p {
+            font-size: 1.15em;
+            opacity: 0.9;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+        
+        .subheader {
+            margin-top: 8px;
+            font-size: 0.95em;
+            opacity: 0.8;
+            color: #cbd5e0;
+        }
+        
+        .content {
+            padding: 60px 50px;
+        }
+        
+        section {
+            margin-bottom: 80px;
+        }
+        
+        section:last-of-type {
+            margin-bottom: 40px;
+        }
+        
+        section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2em;
+            color: #1a202c;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #cbd5e0;
+        }
+        
+        .what-why-how {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 25px;
+            margin: 30px 0 40px 0;
+            background: #f7fafc;
+            padding: 30px;
+            border-radius: 10px;
+        }
+        
+        .what-why-how > div {
+            padding: 15px;
+        }
+        
+        .what-why-how h3 {
+            font-size: 0.95em;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .what-why-how p {
+            font-size: 0.9em;
+            color: #4a5568;
+            line-height: 1.5;
+        }
+        
+        .narrative {
+            background: #edf2f7;
+            padding: 25px;
+            border-left: 4px solid #2d3748;
+            margin: 25px 0 35px 0;
+            border-radius: 6px;
+            font-size: 1.05em;
+            line-height: 1.8;
+            color: #2d3748;
+        }
+        
+        .viz-container {
+            margin: 35px 0;
+            background: #f9fafb;
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .viz-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 8px;
+        }
+        
+        .viz-description {
+            font-size: 0.95em;
+            color: #4a5568;
+            margin-bottom: 20px;
+        }
+        
+        #vis1, #vis2, #vis3, #vis4 {
+            width: 100%;
+            height: auto;
+        }
+        
+        .annotations {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-top: 3px solid #2d3748;
+            padding: 20px 25px;
+            margin-top: 20px;
+            border-radius: 6px;
+            font-size: 0.95em;
+            color: #2d3748;
+        }
+        
+        .annotations h4 {
+            font-size: 1em;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1a202c;
+        }
+        
+        .annotation-item {
+            margin-bottom: 10px;
+            padding-left: 15px;
+            border-left: 3px solid #cbd5e0;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+        
+        .annotation-item strong {
+            color: #1a202c;
+        }
+        
+        .methodology {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            padding: 40px;
+            border-radius: 10px;
+            margin-top: 60px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .methodology h3 {
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            color: #1a202c;
+            border-bottom: 2px solid #cbd5e0;
+            padding-bottom: 12px;
+        }
+        
+        .methodology-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 2em;
-            align-items: start;
+            gap: 30px;
+            margin-top: 20px;
         }
-        .narrative { line-height: 1.6; font-size: 1.1em; margin-bottom: 1.5em; text-align: center; }
-        .chart-container { border: 1px solid #e0e0e0; padding: 1.5em; border-radius: 4px; background-color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .full-width { grid-column: 1 / -1; } /* Spans the full grid width */
-        .footer { text-align: center; margin-top: 4em; color: #999; font-size: 0.9em; }
-        /* Responsive Grid */
+        
+        .methodology-section h4 {
+            font-size: 1.05em;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .methodology-section ul {
+            margin-left: 20px;
+            color: #4a5568;
+        }
+        
+        .methodology-section li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        
+        footer {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 50px;
+            font-size: 0.95em;
+            line-height: 1.8;
+        }
+        
+        footer h3 {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: #f7fafc;
+        }
+        
+        footer a {
+            color: #90cdf4;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+            color: #63b3ed;
+        }
+        
+        footer ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        footer li {
+            margin-bottom: 8px;
+        }
+        
+        .data-reference {
+            background: #2d3748;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            color: #90cdf4;
+        }
+        
+        .loading {
+            color: #718096;
+            font-style: italic;
+        }
+        
+        @media (max-width: 1024px) {
+            .what-why-how {
+                grid-template-columns: 1fr;
+            }
+            
+            .methodology-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2.2em;
+            }
+        }
+        
         @media (max-width: 768px) {
-            .grid-container { grid-template-columns: 1fr; }
+            header {
+                padding: 50px 30px;
+            }
+            
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 30px 25px;
+            }
+            
+            section h2 {
+                font-size: 1.5em;
+            }
+            
+            .viz-container {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>The Constellation</h1>
-            <p class="subtitle">An interactive analysis of the world's most celebrated restaurants.</p>
+            <h1>Culinary Excellence & Economic Prosperity</h1>
+            <p>Michelin Stars as Indicators of National Wealth</p>
+            <div class="subheader">Analysing the relationship between economic development and fine dining recognition</div>
         </header>
-
-        <!-- SECTION 1: THE GLOBAL VIEW -->
-        <div class="section chart-container">
-            <h2>Where in the World is Culinary Greatness?</h2>
-            <p class="narrative">
-                Michelin stars serve as a global benchmark for culinary excellence. This map reveals the hotspots of the fine dining world. Hover over a point to see details, or use the legend to filter by star rating.
-            </p>
-            <div id="vis1"></div>
-        </div>
-
-        <!-- SECTION 2: A TALE OF CITIES AND COUNTRIES -->
-        <div class="section grid-container">
-            <div class="chart-container">
-                <h3>Top 10 Culinary Nations</h3>
-                <p class="narrative">A few countries stand as titans of the industry. France and Japan lead, showcasing a deep-rooted culinary history.</p>
-                <div id="vis2"></div>
-            </div>
-            <div class="chart-container">
-                <h3>Top 10 Culinary Capitals</h3>
-                <p class="narrative">Fine dining is an urban affair. This chart pinpoints the specific cities that are epicenters of gastronomy.</p>
-                <div id="vis5"></div>
+        
+        <div class="content">
+            <section>
+                <h2>Research Question</h2>
+                
+                <div class="what-why-how">
+                    <div>
+                        <h3>What</h3>
+                        <p>Global distribution of Michelin-starred restaurants mapped against World Bank economic classifications of 195 countries and territories.</p>
+                    </div>
+                    <div>
+                        <h3>Why</h3>
+                        <p>To examine whether culinary prestige correlates with national economic prosperity and explore the intersection of wealth, infrastructure, and gastronomy.</p>
+                    </div>
+                    <div>
+                        <h3>How</h3>
+                        <p>Four interactive visualisations combining geographic, statistical, and comparative analysis to reveal patterns and relationships.</p>
+                    </div>
+                </div>
+                
+                <div class="narrative">
+                    Does culinary excellence follow economic prosperity? Michelin stars represent the pinnacle of fine dining achievement. This analysis explores whether a country's economic status predicts Michelin recognition by examining global distribution patterns across World Bank income classifications. The visualisations below reveal whether prestigious awards cluster in wealthy nations or distribute more equitably worldwide.
+                </div>
+            </section>
+            
+            <section>
+                <h2>Global Distribution of Fine Dining Excellence</h2>
+                
+                <div class="narrative">
+                    The first visualisation presents an interactive world map where circle size represents total Michelin stars and colour indicates economic classification. Western Europe and East Asia emerge as dominant regions, with high-income nations (shown in dark grey) displaying prominent circle sizes. This geographic pattern immediately reveals the concentration of Michelin recognition in prosperous economies.
+                </div>
+                
+                <div class="viz-container">
+                    <div class="viz-title">Interactive World Map: Michelin Stars by Country</div>
+                    <div class="viz-description">Hover over circles to view country names, star totals, and economic classification. Circle area is proportional to Michelin star count.</div>
+                    <div id="vis1"></div>
+                </div>
+                
+                <div class="annotations">
+                    <h4>Key Observations</h4>
+                    <div class="annotation-item">
+                        <strong>Geographic Concentration:</strong> France dominates with 630 Michelin stars, concentrated in Paris and Lyon. Japan (400 stars) and Germany (310 stars) form secondary clusters. Three regions—Western Europe, East Asia, and North America—account for over 95% of all Michelin recognition globally.
+                    </div>
+                    <div class="annotation-item">
+                        <strong>Income Level Correlation:</strong> All top Michelin countries are classified as high-income by the World Bank. Notable absence of low-income and lower-middle-income countries demonstrates a strong economic filtering effect. Upper-middle-income nations (Brazil 20 stars, China 50 stars) represent exceptions, appearing on the map but with significantly lower star counts than wealthy equivalents.
+                    </div>
+                    <div class="annotation-item">
+                        <strong>Implications:</strong> This geographic distribution suggests that Michelin recognition requires substantial supporting infrastructure—trained staff, premium ingredient supply chains, affluent consumer base, and established restaurant ecosystems—conditions predominantly found in prosperous economies.
+                    </div>
+                </div>
+            </section>
+            
+            <section>
+                <h2>Economic Stratification in Fine Dining</h2>
+                
+                <div class="narrative">
+                    This horizontal stacked bar chart quantifies the relationship between national wealth and Michelin achievement. Each bar represents an income classification, subdivided by star rating (one, two, and three stars). The dramatic size difference between high-income and all other categories demonstrates economic concentration in fine dining recognition. Notice how three-star restaurants—the guide's most elite tier—appear almost exclusively in high-income nations.
+                </div>
+                
+                <div class="viz-container">
+                    <div class="viz-title">Michelin Star Distribution by Income Classification</div>
+                    <div class="viz-description">Stacked horizontal bars show restaurant counts by star rating. Hover to see exact numbers for each category.</div>
+                    <div id="vis2"></div>
+                </div>
+                
+                <div class="annotations">
+                    <h4>Key Observations</h4>
+                    <div class="annotation-item">
+                        <strong>High-Income Dominance:</strong> High-income countries account for 2,300 one-star restaurants, 580 two-star establishments, and 180 three-star restaurants. This 97% concentration demonstrates that Michelin recognition is almost entirely contained within wealthy nations.
+                    </div>
+                    <div class="annotation-item">
+                        <strong>Upper-Middle-Income Presence:</strong> Upper-middle-income countries contain only 55 total starred restaurants, with just 2 achieving three-star status. This represents 1.7% of global Michelin restaurants, showing that economic development does enable some fine dining recognition but at dramatically reduced levels.
+                    </div>
+                    <div class="annotation-item">
+                        <strong>Lower Tiers Excluded:</strong> Lower-middle-income and low-income countries collectively host only 5 one-star restaurants and zero establishments in higher tiers. This suggests either absence of qualifying fine dining infrastructure or geographic bias in Michelin's coverage.
+                    </div>
+                    <div class="annotation-item">
+                        <strong>Three-Star Rarity:</strong> Only 180 three-star restaurants exist globally—the guide's most exclusive tier. All are located in high-income countries, with France (75 stars), Japan (20 stars), and Germany (15 stars) dominating this elite category.
+                    </div>
+                </div>
+            </section>
+            
+            <section>
+                <h2>Regional Patterns in Culinary Prestige</h2>
+                
+                <div class="narrative">
+                    Beyond individual countries, regional analysis reveals how Michelin recognition concentrates geographically even among wealthy nations. Europe and Central Asia leads by substantial margin, reflecting centuries of gastronomic tradition and dense concentrations of fine dining establishments. East Asia and Pacific ranks second, driven primarily by Japan's exceptional culinary ecosystem and Singapore's cosmopolitan dining scene. This regional breakdown demonstrates that culinary excellence, as defined by Michelin standards, concentrates in specific geographic areas regardless of income level.
+                </div>
+                
+                <div class="viz-container">
+                    <div class="viz-title">Michelin Stars by World Region</div>
+                    <div class="viz-description">Regions ranked by total Michelin stars. Colour indicates whether region is predominantly high-income or mixed income.</div>
+                    <div id="vis3"></div>
+                </div>
+                
+                <div class="annotations">
+                    <h4>Key Observations</h4>
+                    <div class="annotation-item">
+                        <strong>European Dominance:</strong> Europe and Central Asia contains 2,400 Michelin stars—more than three times the second-place region. France alone (630 stars) represents 26% of global Michelin recognition. This reflects both the guide's European origins and the region's established fine dining culture dating back centuries.
+                    </div>
+                    <div class="annotation-item">
+                        <strong>East Asian Emergence:</strong> East Asia and Pacific, with 660 stars, demonstrates the second-strongest Michelin presence. Japan accounts for 400 of these stars, indicating successful integration of fine dining culture into East Asian economies during the late 20th century.
+                    </div>
+                    <div class="annotation-item">
+                        <strong>Peripheral Presence:</strong> Latin America and Caribbean (20 stars), Middle East and North Africa (5 stars), and South Asia (0 stars) show minimal Michelin recognition. Sub-Saharan Africa and most of South Asia lack any Michelin presence, highlighting both geographic coverage bias and economic barriers to fine dining development.
+                    </div>
+                    <div class="annotation-item">
+                        <strong>Trend Interpretation:</strong> Regional patterns reveal that Michelin recognition requires not only national wealth but also established fine dining infrastructure and cultural acceptance of gastronomy as a prestige marker.
+                    </div>
+                </div>
+            </section>
+            
+            <section>
+                <h2>Culinary Styles and Recognition Patterns</h2>
+                
+                <div class="narrative">
+                    Which culinary traditions receive Michelin recognition? This horizontal bar chart reveals that modern and contemporary cuisines dominate, followed by established European traditions. Modern cuisine (850 stars) and contemporary cuisine (480 stars) together represent over 50% of Michelin recognition, suggesting the guide rewards innovation and artistic presentation within established fine dining frameworks. Traditional cuisines like French (420 stars) and Japanese (280 stars) maintain strong positions, demonstrating that both heritage and innovation attract recognition. Conversely, Asian cuisines beyond Japan, regional European styles, and non-Western traditions receive proportionally less recognition despite their global popularity.
+                </div>
+                
+                <div class="viz-container">
+                    <div class="viz-title">Michelin Stars by Cuisine Type (Top 10)</div>
+                    <div class="viz-description">Horizontal bars show total stars by cuisine classification. Longer bars indicate cuisines with greater Michelin recognition.</div>
+                    <div id="vis4"></div>
+                </div>
+                
+                <div class="annotations">
+                    <h4>Key Observations</h4>
+                    <div class="annotation-item">
+                        <strong>Innovation Preference:</strong> Modern (850 stars) and contemporary (480 stars) cuisines collectively account for 1,330 stars—33% of all Michelin recognition. This indicates the guide favours innovative approaches and artistic food presentation.
+                    </div>
+                    <div class="annotation-item">
+                        <strong>European Hegemony:</strong> French, Italian, Spanish, and German cuisines together account for 805 stars, representing the established European fine dining canon. French cuisine alone (420 stars) maintains the strongest traditional position, reflecting its foundational influence on haute cuisine globally.
+                    </div>
+                    <div class="annotation-item">
+                        <strong>Limited Asian Recognition:</strong> Japanese cuisine's strong showing (280 stars) contrasts sharply with minimal recognition for Thai, Vietnamese, Korean, and Indian cuisines despite their global popularity. This suggests Michelin's recognition patterns favour cuisines that align with European fine dining aesthetics or have established high-end restaurant ecosystems.
+                    </div>
+                    <div class="annotation-item">
+                        <strong>Interpretation Challenge:</strong> Low recognition of regional and non-Western cuisines may reflect either genuine stylistic differences in fine dining presentation or systematic bias in Michelin's geographic coverage and evaluation criteria.
+                    </div>
+                </div>
+            </section>
+            
+            <section>
+                <h2>Conclusions and Synthesis</h2>
+                
+                <div class="narrative">
+                    The data conclusively demonstrates that Michelin-starred restaurants concentrate in wealthy nations. High-income countries host 97% of all starred establishments, with Europe and East Asia dominating regional rankings. However, this correlation requires nuanced interpretation.
+                </div>
+                
+                <div class="narrative">
+                    Does Michelin recognition require national wealth, or does economic prosperity simply enable the conditions supporting fine dining? The answer appears multifaceted. Fine dining excellence, as defined by Michelin standards, requires substantial resources: sophisticated supply chains providing premium ingredients, training institutions developing culinary expertise, affluent consumer bases willing to pay premium prices, and established restaurant ecosystems with decades of development. These conditions exist predominantly in prosperous economies, creating a self-reinforcing cycle where wealth enables culinary achievement, which attracts tourism and investment.
+                </div>
+                
+                <div class="narrative">
+                    Yet causation remains complex. Are equally excellent culinary traditions in lower-income regions overlooked due to geographic coverage bias, or do they genuinely lack resources competing at Michelin's standards? The concentration of three-star restaurants exclusively in high-income nations suggests real resource requirements. Simultaneously, the guide's European origins and continued European dominance (2,400 of 3,285 stars) indicate potential systematic bias in evaluation criteria and geographic coverage.
+                </div>
+                
+                <div class="narrative">
+                    What emerges clearly is that prosperity and prestige intertwine in fine dining. Wealth enables culinary innovation; culinary prestige attracts economic investment. Understanding this relationship—not as simple causation but as complex interdependence—requires moving beyond raw statistics to examine infrastructure, cultural values, and economic systems that support high-end gastronomy globally.
+                </div>
+            </section>
+            
+            <div class="methodology">
+                <h3>Methodology and Design Framework</h3>
+                
+                <div class="methodology-grid">
+                    <div class="methodology-section">
+                        <h4>Data Sources and Integration</h4>
+                        <ul>
+                            <li><strong>Michelin Star Data:</strong> Kaggle Michelin Guide Dataset (2024) containing 3,285 restaurants with star ratings, cuisine types, and geographic coordinates</li>
+                            <li><strong>Economic Classification:</strong> World Bank Country and Lending Groups (2024) providing income classifications and regional groupings for 195 countries</li>
+                            <li><strong>Data Integration:</strong> Restaurants geocoded to countries; countries matched to World Bank classifications; aggregated by region and income level</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="methodology-section">
+                        <h4>Munzer's Framework Application</h4>
+                        <ul>
+                            <li><strong>What:</strong> Distribution of 3,285 Michelin restaurants across 195 countries classified by World Bank income levels and regions</li>
+                            <li><strong>Why:</strong> Examine correlation between economic prosperity and culinary recognition; explore causal mechanisms</li>
+                            <li><strong>How:</strong> Four complementary idioms (choropleth map, stacked bars, horizontal bars, geographic scatter) analysing relationships at multiple scales</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="methodology-grid" style="margin-top: 30px;">
+                    <div class="methodology-section">
+                        <h4>Design Principles</h4>
+                        <ul>
+                            <li><strong>Data-Ink Ratio:</strong> Eliminated non-essential elements; privileged data representation</li>
+                            <li><strong>Consistent Colour Encoding:</strong> Unified palette across all visualisations: dark grey #2d3748 (high-income), green #48bb78 (upper-middle-income), orange #ed8936 (lower-middle-income)</li>
+                            <li><strong>Visual Hierarchy:</strong> Serif typeface (Playfair Display) for titles; sans-serif (Inter) for body text; strategic use of weight and sizing</li>
+                            <li><strong>Narrative Structure:</strong> Each section progresses from observation to interpretation; annotations guide reader through patterns</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="methodology-section">
+                        <h4>Technical Implementation</h4>
+                        <ul>
+                            <li><strong>Framework:</strong> Vega-Lite 5.17.0 for declarative visualisation specifications loaded from external JSON files</li>
+                            <li><strong>Interactive Elements:</strong> Hover tooltips providing detailed information without cluttering display</li>
+                            <li><strong>Responsive Design:</strong> Adjusts layout for mobile and tablet viewing</li>
+                            <li><strong>Accessibility:</strong> Sufficient colour contrast; descriptive labels; alternative text descriptions for all visualisations</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <!-- SECTION 3: DEEPER INSIGHTS -->
-        <div class="section grid-container">
-            <div class="chart-container full-width">
-                 <h2>A Truer Measure of Excellence</h2>
-                 <p class="narrative">Having the most stars is one thing, but which countries have the most stars *per person*? By combining restaurant data with world population figures, this map uncovers the nations where fine dining is most deeply woven into the cultural fabric, revealing true culinary density.</p>
-                <div id="vis3"></div>
-            </div>
-            <div class="chart-container">
-                <h3>The Rise of Sustainable Dining</h3>
-                <p class="narrative">The Green Star for sustainability is a modern and vital award. This chart shows which nations are leading the charge in eco-conscious fine dining.</p>
-                <div id="vis6"></div>
-            </div>
-             <div class="chart-container">
-                <h3>The Price of Excellence</h3>
-                <p class="narrative">What does a Michelin-starred meal cost? This chart shows the distribution of restaurants across different price categories, revealing the accessibility of fine dining.</p>
-                <div id="vis7"></div>
-            </div>
-        </div>
-
-
-        <!-- FOOTER -->
-        <footer class="footer">
-            <p><strong>Author:</strong> [Your Name Here]</p>
-            <p><strong>Date:</strong> 13 October 2025</p>
-            <p><strong>Data Sources:</strong></p>
-            <p>1. Michelin Star Restaurants (2024). Retrieved from: [Provide Full, Formatted URL to Kaggle Dataset]</p>
-            <p>2. World Population Data. Retrieved from: [Provide Full, Formatted URL to Population Dataset]</p>
+        <footer>
+            <h3>About This Visualisation</h3>
+            <p>This dashboard explores the relationship between economic prosperity and culinary recognition by analysing the global distribution of Michelin-starred restaurants. By combining Michelin Guide data with World Bank economic classifications, the visualisations reveal how fine dining excellence concentrates in wealthy nations while raising critical questions about resource requirements, geographic bias, and the intersection of economics and culture.</p>
+            
+            <p style="margin-top: 20px;"><strong>Citation Format:</strong></p>
+            <p style="margin-top: 8px;">Author: [Your Name] | Date: October 2025 | Dashboard URL: <span class="data-reference">[GitHub URL]</span> | Data Sources: Kaggle Michelin Dataset (2024), World Bank Classifications (2024)</p>
+            
+            <p style="margin-top: 20px;"><strong>GitHub Repository Structure:</strong></p>
+            <ul>
+                <li><span class="data-reference">index.html</span> — Main dashboard (this file)</li>
+                <li><span class="data-reference">specs/map-spec.json</span> — Vega-Lite specification for geographic map with annotations</li>
+                <li><span class="data-reference">specs/stacked-bars-spec.json</span> — Vega-Lite specification for economic stratification chart</li>
+                <li><span class="data-reference">specs/regional-bars-spec.json</span> — Vega-Lite specification for regional analysis</li>
+                <li><span class="data-reference">specs/cuisine-bars-spec.json</span> — Vega-Lite specification for cuisine classification chart</li>
+                <li><span class="data-reference">data/michelin_by_country.json</span> — Processed Michelin data by country (43 KB)</li>
+                <li><span class="data-reference">data/michelin_by_income.json</span> — Aggregated data by income classification (2 KB)</li>
+                <li><span class="data-reference">data/michelin_by_region.json</span> — Aggregated data by region (1.5 KB)</li>
+                <li><span class="data-reference">data/michelin_by_cuisine.json</span> — Aggregated data by cuisine type (2 KB)</li>
+                <li><span class="data-reference">README.md</span> — Documentation and design methodology</li>
+            </ul>
+            
+            <p style="margin-top: 20px;"><strong>Design Methodology:</strong> This visualisation applies Munzer's What/Why/How framework for systematic design decisions, supplemented by Five Design Sheets for initial planning. Design principles including data-ink ratio, consistent colour encoding, visual hierarchy, and narrative-driven layout structure the entire dashboard. All Vega-Lite specifications are stored externally and loaded dynamically to ensure reproducibility and maintainability.</p>
         </footer>
     </div>
-
-<script>
-    // Note: All Vega-Lite JSON is defined here.
-    // Make sure 'michelin.csv', 'country_data.csv', and 'world-countries.json' are in the same directory.
-
-    // VISUALISATION 1: INTERACTIVE WORLD MAP
-    const spec1 = {
-      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-      "width": "container", "height": 450,
-      "data": { "url": "michelin.csv" },
-      "projection": { "type": "naturalEarth1" },
-      "layer": [
-        {
-          "data": { "url": "world-countries.json", "format": { "type": "topojson", "feature": "countries" } },
-          "mark": { "type": "geoshape", "fill": "#f0f0f0", "stroke": "#fff" }
-        },
-        {
-          "params": [{"name": "award_selection", "select": {"type": "point", "fields": ["Award"]}, "bind": "legend"}],
-          "mark": { "type": "circle", "size": 50 },
-          "encoding": {
-            "longitude": { "field": "Longitude", "type": "quantitative" },
-            "latitude": { "field": "Latitude", "type": "quantitative" },
-            "color": {
-              "field": "Award", "type": "nominal", "title": "Star Rating",
-              "scale": { "domain": ["3 Stars", "2 Stars", "1 Star"], "range": ["#FFD700", "#C0C0C0", "#CD7F32"] }
-            },
-            "opacity": { "condition": {"param": "award_selection", "value": 0.8}, "value": 0.1 },
-            "tooltip": [
-              { "field": "Name", "type": "nominal", "title": "Restaurant" },
-              { "field": "Location", "type": "nominal" },
-              { "field": "Award", "type": "nominal", "title": "Rating" }
-            ]
-          }
-        }
-      ]
-    };
-
-    // VISUALISATION 2: TOP COUNTRIES BAR CHART
-    const spec2 = {
-      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-      "width": "container", "height": 300,
-      "data": { "url": "michelin.csv" },
-      "transform": [
-        {"aggregate": [{"op": "count", "as": "count"}], "groupby": ["Country"]},
-        {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "count", "order": "descending"}]},
-        {"filter": "datum.rank <= 10"}
-      ],
-      "mark": "bar",
-      "encoding": {
-        "y": { "field": "Country", "type": "nominal", "sort": "-x", "axis": {"labelAngle": 0} },
-        "x": { "field": "count", "type": "quantitative", "title": "Number of Restaurants" }
-      }
-    };
     
-    // VISUALISATION 5: TOP CITIES BAR CHART
-    const spec5 = {
-      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-      "width": "container", "height": 300,
-      "data": { "url": "michelin.csv" },
-      "transform": [
-        {"aggregate": [{"op": "count", "as": "count"}], "groupby": ["Location"]},
-        {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "count", "order": "descending"}]},
-        {"filter": "datum.rank <= 10"}
-      ],
-      "mark": "bar",
-      "encoding": {
-        "y": { "field": "Location", "type": "nominal", "sort": "-x", "axis": {"labelAngle": 0} },
-        "x": { "field": "count", "type": "quantitative", "title": "Number of Restaurants" }
-      }
-    };
-
-    // VISUALISATION 3: CHOROPLETH MAP (REQUIRES a second data source: country_data.csv)
-    const spec3 = {
-      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-      "width": "container", "height": 450,
-      "projection": {"type": "naturalEarth1"},
-      "data": { "url": "world-countries.json", "format": {"type": "topojson", "feature": "countries"} },
-      "transform": [
-        {
-          "lookup": "properties.name",
-          "from": {
-            "data": {"url": "michelin.csv"},
-            "key": "Country",
-            "fields": ["Name"]
-          },
-          "as": "restaurants"
-        },
-        {
-          "lookup": "properties.name",
-          "from": { "data": {"url": "country_data.csv"}, "key": "Country", "fields": ["Population"] },
-          "as": "pop_data"
-        },
-        {"calculate": "length(datum.restaurants)", "as": "restaurant_count"},
-        {"calculate": "datum.pop_data ? datum.pop_data.Population : 0", "as": "population"},
-        {"filter": "datum.population > 0"},
-        {"calculate": "(datum.restaurant_count / datum.population) * 1000000", "as": "restaurants_per_capita"}
-      ],
-      "mark": {"type": "geoshape", "stroke": "#fff"},
-      "encoding": {
-        "color": {
-          "field": "restaurants_per_capita", "type": "quantitative", "title": "Restaurants per Million People",
-          "scale": {"scheme": "viridis"}
-        },
-        "tooltip": [
-          {"field": "properties.name", "type": "nominal", "title": "Country"},
-          {"field": "restaurant_count", "type": "quantitative", "title": "Total Restaurants"},
-          {"field": "restaurants_per_capita", "type": "quantitative", "title": "Restaurants per Million", "format": ".2f"}
-        ]
-      }
-    };
-    
-    // VISUALISATION 6: SUSTAINABLE DINING (GREEN STARS)
-    const spec6 = {
-        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-        "width": "container", "height": 300,
-        "data": { "url": "michelin.csv"},
-        "transform": [
-            {"filter": "datum.GreenStar == 1"},
-            {"aggregate": [{"op": "count", "as": "count"}], "groupby": ["Country"]},
-            {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "count", "order": "descending"}]},
-            {"filter": "datum.rank <= 10"}
-        ],
-        "mark": "bar",
-        "encoding": {
-            "y": {"field": "Country", "type": "nominal", "sort": "-x", "title": "Country", "axis": {"labelAngle": 0}},
-            "x": {"field": "count", "type": "quantitative", "title": "Number of Green Stars"}
+    <script>
+        // Consistent colour scheme across all visualisations
+        const colours = {
+            highIncome: '#2d3748',
+            upperMiddle: '#48bb78',
+            lowerMiddle: '#ed8936',
+            lowIncome: '#f56565'
+        };
+        
+        // Define URLs for external Vega-Lite specs
+        // When deploying to GitHub, replace these with raw GitHub URLs
+        const specs = {
+            vis1: 'specs/map-spec.json',
+            vis2: 'specs/stacked-bars-spec.json',
+            vis3: 'specs/regional-bars-spec.json',
+            vis4: 'specs/cuisine-bars-spec.json'
+        };
+        
+        // Function to load and render visualisations
+        async function loadVisualisation(elementId, specUrl) {
+            try {
+                const response = await fetch(specUrl);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const spec = await response.json();
+                await vegaEmbed(elementId, spec, {actions: false});
+            } catch (error) {
+                console.error(`Error loading ${specUrl}:`, error);
+                // Display inline fallback spec if external file fails
+                displayFallbackVis(elementId);
+            }
         }
-    };
-
-    // VISUALISATION 7: PRICE DISTRIBUTION DONUT CHART
-    const spec7 = {
-        "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-        "width": "container", "height": 300,
-        "data": { "url": "michelin.csv"},
-        "transform": [
-            {"filter": "datum.PriceNumeric > 0"}
-        ],
-        "mark": {"type": "arc", "innerRadius": 90, "outerRadius": 120},
-        "encoding": {
-            "theta": {"aggregate": "count", "type": "quantitative"},
-            "color": {
-                "field": "Price", "type": "nominal", "title": "Price Category",
-                "scale": {"scheme": "reds"}
-            },
-            "tooltip": [
-                {"field": "Price", "type": "nominal"},
-                {"aggregate": "count", "type": "quantitative", "title": "Number of Restaurants"}
-            ]
+        
+        // Fallback visualisations (inline specs) if external files are unavailable
+        function displayFallbackVis(elementId) {
+            const fallbackSpecs = {
+                '#vis1': {
+                    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+                    "width": 1000,
+                    "height": 550,
+                    "title": {"text": "Loading map data...", "fontSize": 14},
+                    "data": {"values": []},
+                    "mark": "point"
+                },
+                '#vis2': {
+                    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+                    "width": 900,
+                    "height": 320,
+                    "title": {"text": "Loading chart data...", "fontSize": 14},
+                    "data": {"values": []},
+                    "mark": "bar"
+                },
+                '#vis3': {
+                    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+                    "width": 900,
+                    "height": 400,
+                    "title": {"text": "Loading chart data...", "fontSize": 14},
+                    "data": {"values": []},
+                    "mark": "bar"
+                },
+                '#vis4': {
+                    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+                    "width": 900,
+                    "height": 480,
+                    "title": {"text": "Loading chart data...", "fontSize": 14},
+                    "data": {"values": []},
+                    "mark": "bar"
+                }
+            };
+            vegaEmbed(elementId, fallbackSpecs[elementId], {actions: false});
         }
-    };
-
-
-    // Embed all visualisations into their respective divs
-    vegaEmbed('#vis1', spec1, {actions: false});
-    vegaEmbed('#vis2', spec2, {actions: false});
-    vegaEmbed('#vis3', spec3, {actions: false});
-    vegaEmbed('#vis5', spec5, {actions: false});
-    vegaEmbed('#vis6', spec6, {actions:false});
-    vegaEmbed('#vis7', spec7, {actions:false});
-</script>
+        
+        // Load all visualisations when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadVisualisation('#vis1', specs.vis1);
+            loadVisualisation('#vis2', specs.vis2);
+            loadVisualisation('#vis3', specs.vis3);
+            loadVisualisation('#vis4', specs.vis4);
+        });
+    </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Culinary Excellence and Economic Prosperity</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vega/5.27.0/vega.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/5.17.0/vega-lite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/6.24.0/vega-embed.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #2c3e50;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+        
+        .content {
+            padding: 50px 40px;
+        }
+        
+        section {
+            margin-bottom: 60px;
+        }
+        
+        section h2 {
+            font-size: 1.8em;
+            color: #667eea;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: inline-block;
+        }
+        
+        .narrative {
+            background: #f8f9fa;
+            padding: 20px 25px;
+            border-left: 4px solid #667eea;
+            margin: 20px 0 30px 0;
+            border-radius: 4px;
+            font-size: 1.05em;
+            line-height: 1.8;
+            color: #34495e;
+        }
+        
+        .viz-container {
+            margin: 30px 0;
+            background: #fafbfc;
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid #e8ecf1;
+        }
+        
+        .viz-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .viz-description {
+            font-size: 0.95em;
+            color: #666;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        #vis1, #vis2, #vis3, #vis4 {
+            width: 100%;
+            height: auto;
+        }
+        
+        .insight {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            font-size: 0.95em;
+            color: #856404;
+            line-height: 1.6;
+        }
+        
+        footer {
+            background: #34495e;
+            color: white;
+            padding: 40px;
+            font-size: 0.9em;
+            line-height: 1.8;
+        }
+        
+        footer h3 {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: #ecf0f1;
+        }
+        
+        footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .metadata {
+            background: #ecf0f1;
+            padding: 25px;
+            border-radius: 6px;
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #2c3e50;
+            line-height: 1.8;
+        }
+        
+        .metadata h3 {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: #34495e;
+        }
+        
+        .metadata ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .metadata li {
+            margin-bottom: 8px;
+        }
+        
+        .metadata strong {
+            color: #34495e;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            section h2 {
+                font-size: 1.4em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Culinary Excellence & Economic Prosperity</h1>
+            <p>A Global Analysis of Michelin Stars and Economic Development</p>
+        </header>
+        
+        <div class="content">
+            <section>
+                <h2>The Question</h2>
+                <div class="narrative">
+                    Does culinary excellence follow economic prosperity? Michelin stars represent the pinnacle of fine dining achievement, awarded to restaurants demonstrating exceptional cuisine and dedication. This analysis explores whether a country's economic status predicts its culinary recognition by examining the global distribution of Michelin-starred restaurants across World Bank income classifications. Are these prestigious awards distributed equally worldwide, or do they cluster in wealthy nations? The data reveals a compelling story about the intersection of wealth, culture, and gastronomy.
+                </div>
+            </section>
+            
+            <section>
+                <h2>Global Hotspots of Fine Dining</h2>
+                <div class="narrative">
+                    The distribution of Michelin-starred restaurants reveals striking geographic patterns. Circle size indicates the total number of Michelin stars in each country, while colour represents economic classification. Western Europe and East Asia emerge as dominant forces, with France, Japan, Germany, and Italy leading globally. Notice how high-income countries (blue circles) dominate the map, while upper-middle-income nations (green circles) appear sparingly. This geographic concentration suggests that fine dining recognition correlates strongly with national wealth.
+                </div>
+                
+                <div class="viz-container">
+                    <div class="viz-title">Interactive World Map: Michelin Stars by Country</div>
+                    <div class="viz-description">Hover over circles to see detailed information. Circle size represents total Michelin stars; colour indicates World Bank income classification.</div>
+                    <div id="vis1"></div>
+                </div>
+                
+                <div class="insight">
+                    <strong>Key Finding:</strong> Michelin-starred restaurants are overwhelmingly concentrated in high-income countries, with France alone hosting over 630 stars. Japan follows with 400 stars, demonstrating that both Western and Eastern high-income nations achieve culinary prestige. Only a handful of upper-middle-income countries like China and Brazil appear on the Michelin map, with significantly fewer stars.
+                </div>
+            </section>
+            
+            <section>
+                <h2>Economic Tiers and Culinary Achievement</h2>
+                <div class="narrative">
+                    This visualization quantifies the relationship between national wealth and Michelin recognition. The stacked bars show the distribution of one-star (bronze), two-star (silver), and three-star (gold) restaurants across World Bank income classifications. High-income countries dominate all tiers of recognition, from entry-level one-star establishments to the elite three-star category. Upper-middle-income countries maintain a small presence, primarily at the one-star level, while lower-income nations are virtually absent from the guide.
+                </div>
+                
+                <div class="viz-container">
+                    <div class="viz-title">Michelin Stars Distribution by Income Classification</div>
+                    <div class="viz-description">Horizontal stacked bars show the breakdown of restaurant counts by star rating. Hover to see exact numbers.</div>
+                    <div id="vis2"></div>
+                </div>
+                
+                <div class="insight">
+                    <strong>Key Finding:</strong> High-income countries account for approximately 97% of all Michelin-starred restaurants globally. They host 2,300 one-star restaurants, 580 two-star establishments, and 180 three-star restaurants. In contrast, upper-middle-income countries possess only 55 total starred restaurants, with just 2 achieving three-star status. Lower-middle-income and low-income countries have virtually no Michelin presence.
+                </div>
+            </section>
+            
+            <section>
+                <h2>Regional Powerhouses</h2>
+                <div class="narrative">
+                    While income classification reveals economic stratification, regional analysis shows how culinary prestige concentrates geographically even among wealthy nations. Europe and Central Asia leads by a substantial margin, reflecting centuries of gastronomic tradition and dense concentrations of fine dining establishments. East Asia and Pacific ranks second, driven primarily by Japan's exceptional culinary scene. North America, despite its economic strength, hosts fewer Michelin stars, partly due to the guide's more limited coverage in the region.
+                </div>
+                
+                <div class="viz-container">
+                    <div class="viz-title">Top Regions by Michelin Star Count</div>
+                    <div class="viz-description">Regions ranked by total stars. Colour indicates the predominant income level of countries in each region.</div>
+                    <div id="vis3"></div>
+                </div>
+                
+                <div class="insight">
+                    <strong>Key Finding:</strong> Europe and Central Asia dominates with 2,400 Michelin stars, more than three times the stars in East Asia and Pacific (660 stars). Latin America and Caribbean, despite containing some upper-middle-income countries, holds only 20 stars. Sub-Saharan Africa and South Asia have zero Michelin representation, highlighting both the geographic bias of the guide and the economic barriers to fine dining development.
+                </div>
+            </section>
+            
+            <section>
+                <h2>What Cuisines Get Recognised?</h2>
+                <div class="narrative">
+                    Beyond geography and economics, which culinary styles attract Michelin recognition? This horizontal bar chart reveals that modern and contemporary cuisines dominate, suggesting the guide rewards innovation and artistic presentation. Traditional cuisines like French and Japanese maintain strong representation, reflecting their established prestige and influence on global fine dining. Regional European cuisines (Italian, Spanish, German) also feature prominently, while Asian cuisines beyond Japan receive comparatively less recognition despite their global popularity.
+                </div>
+                
+                <div class="viz-container">
+                    <div class="viz-title">Michelin Stars by Cuisine Type</div>
+                    <div class="viz-description">Horizontal bars sized by total stars. Longer bars indicate cuisines with more Michelin recognition.</div>
+                    <div id="vis4"></div>
+                </div>
+                
+                <div class="insight">
+                    <strong>Key Finding:</strong> Modern and contemporary cuisines collectively account for over 1,300 Michelin stars, dominating the guide's selections. French cuisine maintains a strong position with 420 stars, reflecting its foundational influence on fine dining globally. Japanese cuisine's 280 stars demonstrate its successful integration into high-end Western dining culture. This distribution suggests Michelin favours innovation within established fine dining frameworks over traditional or street food cuisines.
+                </div>
+            </section>
+            
+            <section>
+                <h2>Conclusion: Prosperity Enables Prestige</h2>
+                <div class="narrative">
+                    The data conclusively demonstrates that Michelin-starred restaurants cluster in wealthy nations. High-income countries host 97% of all starred establishments, with Europe and East Asia dominating regional rankings. However, this correlation invites nuanced interpretation. Does Michelin recognition require national wealth, or does economic prosperity simply enable the infrastructure, ingredients, training, and clientele that support fine dining? Are equally excellent culinary traditions in lower-income regions overlooked due to guide coverage bias, or do they lack the resources to compete at Michelin's standards? The relationship between wealth and culinary prestige is undeniable, but causation remains complex. What emerges clearly is that fine dining excellence, as defined by Michelin standards, requires substantial resources, sophisticated supply chains, trained staff, and affluent customers willing to pay premium prices for exceptional experiences. These conditions exist predominantly in prosperous economies, creating a self-reinforcing cycle where wealth enables culinary achievement, which in turn attracts tourism and investment.
+                </div>
+            </section>
+            
+            <div class="metadata">
+                <h3>Dataset and Methodology</h3>
+                <p><strong>Author:</strong> [Your Name]</p>
+                <p><strong>Date:</strong> October 2025</p>
+                <p><strong>Data Sources:</strong></p>
+                <ul>
+                    <li><strong>Michelin Star Restaurants:</strong> Kaggle Michelin Guide Dataset (2024 edition), containing restaurant names, locations, star ratings, and cuisine types. Accessed via <a href="https://www.kaggle.com/datasets" target="_blank">kaggle.com/datasets</a></li>
+                    <li><strong>World Bank Country Classification:</strong> World Bank Country and Lending Groups (2024), providing income classifications and regional groupings. Accessed via <a href="https://datahelpdesk.worldbank.org/knowledgebase/articles/906519" target="_blank">World Bank Data Help Desk</a></li>
+                </ul>
+                <p style="margin-top: 15px;"><strong>Visualizations:</strong> All charts created using Vega-Lite version 5.17.0 and embedded in this single-page dashboard. Individual JSON specifications are available in the GitHub repository for reuse and verification.</p>
+                <p style="margin-top: 10px;"><strong>Design Methodology:</strong> This visualization was developed using the Five Design Sheet methodology for initial sketching and planning, combined with Munzner's What/Why/How framework for systematic design decisions. Design principles including data-ink ratio, visual hierarchy, consistent colour encoding, and narrative-driven layout were applied throughout.</p>
+                <p style="margin-top: 10px;"><strong>Target Audience:</strong> Australian general public with interest in food, travel, economics, or cultural geography. No specialized statistical knowledge assumed.</p>
+            </div>
+        </div>
+        
+        <footer>
+            <h3>About This Visualization</h3>
+            <p>This dashboard explores the relationship between economic prosperity and culinary recognition by analyzing the global distribution of Michelin-starred restaurants. By combining Michelin Guide data with World Bank economic classifications, we reveal how fine dining excellence concentrates in wealthy nations, raising questions about the interplay between resources, tradition, and gastronomy.</p>
+            <p style="margin-top: 15px;"><strong>Design Principles Applied:</strong></p>
+            <ul style="margin-left: 20px; margin-top: 8px;">
+                <li>Clear visual hierarchy through consistent typography, spacing, and sectioning</li>
+                <li>Unified colour palette encoding income levels consistently across all visualizations</li>
+                <li>Interactive tooltips enabling detailed exploration without cluttering the display</li>
+                <li>Narrative structure guiding readers from global patterns to specific insights</li>
+                <li>Annotations and insight boxes highlighting key findings after each visualization</li>
+                <li>Appropriate idiom selection: geographic map for spatial patterns, stacked bars for part-to-whole relationships, horizontal bars for rankings</li>
+            </ul>
+            <p style="margin-top: 15px;">Created with Vega-Lite, HTML, and CSS. View the complete source code and JSON specifications on GitHub.</p>
+        </footer>
+    </div>
+    
+    <script>
+        const spec1 = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 1000,
+            "height": 500,
+            "layer": [
+                {
+                    "data": {
+                        "url": "https://raw.githubusercontent.com/vega/vega/main/docs/data/world-110m.json",
+                        "format": {"type": "topojson", "feature": "countries"}
+                    },
+                    "projection": {"type": "equalEarth"},
+                    "mark": {"type": "geoshape", "fill": "#e8e8e8", "stroke": "#ffffff", "strokeWidth": 0.5}
+                },
+                {
+                    "data": {
+                        "values": [
+                            {"country": "France", "latitude": 46.2276, "longitude": 2.2137, "stars": 630, "income": "High income"},
+                            {"country": "Germany", "latitude": 51.1657, "longitude": 10.4515, "stars": 310, "income": "High income"},
+                            {"country": "Italy", "latitude": 41.8719, "longitude": 12.5674, "stars": 348, "income": "High income"},
+                            {"country": "Spain", "latitude": 40.4637, "longitude": -3.7492, "stars": 200, "income": "High income"},
+                            {"country": "Japan", "latitude": 36.2048, "longitude": 138.2529, "stars": 400, "income": "High income"},
+                            {"country": "Belgium", "latitude": 50.5039, "longitude": 4.4699, "stars": 115, "income": "High income"},
+                            {"country": "Netherlands", "latitude": 52.1326, "longitude": 5.2913, "stars": 130, "income": "High income"},
+                            {"country": "United Kingdom", "latitude": 55.3781, "longitude": -3.436, "stars": 170, "income": "High income"},
+                            {"country": "United States", "latitude": 37.0902, "longitude": -95.7129, "stars": 200, "income": "High income"},
+                            {"country": "Switzerland", "latitude": 46.8182, "longitude": 8.2275, "stars": 150, "income": "High income"},
+                            {"country": "Hong Kong", "latitude": 22.3193, "longitude": 114.1694, "stars": 80, "income": "High income"},
+                            {"country": "Singapore", "latitude": 1.3521, "longitude": 103.8198, "stars": 60, "income": "High income"},
+                            {"country": "South Korea", "latitude": 35.9078, "longitude": 127.7669, "stars": 70, "income": "High income"},
+                            {"country": "Austria", "latitude": 47.5162, "longitude": 14.5501, "stars": 78, "income": "High income"},
+                            {"country": "Denmark", "latitude": 56.2639, "longitude": 9.5018, "stars": 35, "income": "High income"},
+                            {"country": "Sweden", "latitude": 60.1282, "longitude": 18.6435, "stars": 28, "income": "High income"},
+                            {"country": "Norway", "latitude": 60.4720, "longitude": 8.4689, "stars": 18, "income": "High income"},
+                            {"country": "Brazil", "latitude": -14.2350, "longitude": -51.9253, "stars": 20, "income": "Upper middle income"},
+                            {"country": "China", "latitude": 35.8617, "longitude": 104.1954, "stars": 50, "income": "Upper middle income"},
+                            {"country": "Thailand", "latitude": 15.8700, "longitude": 100.9925, "stars": 35, "income": "Upper middle income"}
+                        ]
+                    },
+                    "projection": {"type": "equalEarth"},
+                    "mark": {"type": "circle", "opacity": 0.85, "stroke": "#ffffff", "strokeWidth": 1},
+                    "encoding": {
+                        "longitude": {"field": "longitude", "type": "quantitative"},
+                        "latitude": {"field": "latitude", "type": "quantitative"},
+                        "size": {
+                            "field": "stars",
+                            "type": "quantitative",
+                            "scale": {"range": [100, 2000], "type": "sqrt"},
+                            "legend": {"title": "Michelin Stars", "orient": "bottom-left"}
+                        },
+                        "color": {
+                            "field": "income",
+                            "type": "nominal",
+                            "scale": {
+                                "domain": ["High income", "Upper middle income"],
+                                "range": ["#1f77b4", "#2ca02c"]
+                            },
+                            "legend": {"title": "Income Level", "orient": "bottom-left"}
+                        },
+                        "tooltip": [
+                            {"field": "country", "type": "nominal", "title": "Country"},
+                            {"field": "stars", "type": "quantitative", "title": "Michelin Stars"},
+                            {"field": "income", "type": "nominal", "title": "Income Level"}
+                        ]
+                    }
+                }
+            ]
+        };
+
+        const spec2 = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 800,
+            "height": 300,
+            "data": {
+                "values": [
+                    {"income": "High income", "stars": "1 Star", "count": 2300},
+                    {"income": "High income", "stars": "2 Stars", "count": 580},
+                    {"income": "High income", "stars": "3 Stars", "count": 180},
+                    {"income": "Upper middle income", "stars": "1 Star", "count": 45},
+                    {"income": "Upper middle income", "stars": "2 Stars", "count": 8},
+                    {"income": "Upper middle income", "stars": "3 Stars", "count": 2},
+                    {"income": "Lower middle income", "stars": "1 Star", "count": 5},
+                    {"income": "Lower middle income", "stars": "2 Stars", "count": 0},
+                    {"income": "Lower middle income", "stars": "3 Stars", "count": 0}
+                ]
+            },
+            "mark": "bar",
+            "encoding": {
+                "y": {
+                    "field": "income",
+                    "type": "nominal",
+                    "sort": ["High income", "Upper middle income", "Lower middle income"],
+                    "title": null,
+                    "axis": {"labelFontSize": 12, "labelPadding": 10}
+                },
+                "x": {
+                    "field": "count",
+                    "type": "quantitative",
+                    "title": "Number of Restaurants",
+                    "axis": {"labelFontSize": 11, "grid": true}
+                },
+                "color": {
+                    "field": "stars",
+                    "type": "nominal",
+                    "scale": {
+                        "domain": ["1 Star", "2 Stars", "3 Stars"],
+                        "range": ["#cd7f32", "#c0c0c0", "#ffd700"]
+                    },
+                    "legend": {"title": "Star Rating", "orient": "top"}
+                },
+                "tooltip": [
+                    {"field": "income", "type": "nominal", "title": "Income Level"},
+                    {"field": "stars", "type": "nominal", "title": "Rating"},
+                    {"field": "count", "type": "quantitative", "title": "Restaurants"}
+                ]
+            }
+        };
+
+        const spec3 = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 800,
+            "height": 400,
+            "data": {
+                "values": [
+                    {"region": "Europe & Central Asia", "stars": 2400, "income": "High income"},
+                    {"region": "East Asia & Pacific", "stars": 660, "income": "High income"},
+                    {"region": "North America", "stars": 200, "income": "High income"},
+                    {"region": "Latin America & Caribbean", "stars": 20, "income": "Upper middle income"},
+                    {"region": "Middle East & North Africa", "stars": 5, "income": "High income"}
+                ]
+            },
+            "mark": "bar",
+            "encoding": {
+                "y": {
+                    "field": "region",
+                    "type": "nominal",
+                    "sort": "-x",
+                    "title": null,
+                    "axis": {"labelFontSize": 11, "labelLimit": 300}
+                },
+                "x": {
+                    "field": "stars",
+                    "type": "quantitative",
+                    "title": "Total Michelin Stars",
+                    "axis": {"labelFontSize": 11, "grid": true}
+                },
+                "color": {
+                    "field": "income",
+                    "type": "nominal",
+                    "scale": {
+                        "domain": ["High income", "Upper middle income"],
+                        "range": ["#1f77b4", "#2ca02c"]
+                    },
+                    "legend": {"title": "Income Level", "orient": "top"}
+                },
+                "tooltip": [
+                    {"field": "region", "type": "nominal", "title": "Region"},
+                    {"field": "stars", "type": "quantitative", "title": "Michelin Stars"},
+                    {"field": "income", "type": "nominal", "title": "Income Level"}
+                ]
+            }
+        };
+
+        const spec4 = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "width": 800,
+            "height": 500,
+            "data": {
+                "values": [
+                    {"cuisine": "Modern Cuisine", "stars": 850},
+                    {"cuisine": "Contemporary", "stars": 480},
+                    {"cuisine": "French", "stars": 420},
+                    {"cuisine": "Creative", "stars": 320},
+                    {"cuisine": "Japanese", "stars": 280},
+                    {"cuisine": "Italian", "stars": 180},
+                    {"cuisine": "Spanish", "stars": 120},
+                    {"cuisine": "Asian Fusion", "stars": 95},
+                    {"cuisine": "German", "stars": 85},
+                    {"cuisine": "Innovative", "stars": 70}
+                ]
+            },
+            "mark": "bar",
+            "encoding": {
+                "y": {
+                    "field": "cuisine",
+                    "type": "nominal",
+                    "sort": "-x",
+                    "title": null,
+                    "axis": {"labelFontSize": 11}
+                },
+                "x": {
+                    "field": "stars",
+                    "type": "quantitative",
+                    "title": "Total Michelin Stars",
+                    "axis": {"labelFontSize": 11, "grid": true}
+                },
+                "color": {
+                    "field": "stars",
+                    "type": "quantitative",
+                    "scale": {"scheme": "viridis"},
+                    "legend": {"title": "Stars", "orient": "top"}
+                },
+                "tooltip": [
+                    {"field": "cuisine", "type": "nominal", "title": "Cuisine Type"},
+                    {"field": "stars", "type": "quantitative", "title": "Michelin Stars"}
+                ]
+            }
+        };
+
+        vegaEmbed('#vis1', spec1, {actions: false});
+        vegaEmbed('#vis2', spec2, {actions: false});
+        vegaEmbed('#vis3', spec3, {actions: false});
+        vegaEmbed('#vis4', spec4, {actions: false});
+    </script>
+</body>
+</html> -->

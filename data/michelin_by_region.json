@@ -1,0 +1,51 @@
+[
+  {
+    "region": "Europe & Central Asia",
+    "stars": 2400,
+    "income": "High income",
+    "countries": "France, Germany, Italy, Spain, Belgium, Netherlands",
+    "restaurants": 2400
+  },
+  {
+    "region": "East Asia & Pacific",
+    "stars": 660,
+    "income": "High income",
+    "countries": "Japan, Hong Kong, Singapore, South Korea, China",
+    "restaurants": 660
+  },
+  {
+    "region": "North America",
+    "stars": 200,
+    "income": "High income",
+    "countries": "United States, Canada",
+    "restaurants": 200
+  },
+  {
+    "region": "Latin America & Caribbean",
+    "stars": 20,
+    "income": "Upper middle income",
+    "countries": "Brazil, Mexico",
+    "restaurants": 20
+  },
+  {
+    "region": "Middle East & North Africa",
+    "stars": 5,
+    "income": "High income",
+    "countries": "United Arab Emirates",
+    "restaurants": 5
+  },
+  {
+    "region": "Sub-Saharan Africa",
+    "stars": 0,
+    "income": "Mixed",
+    "countries": "None",
+    "restaurants": 0
+  },
+  {
+    "region": "South Asia",
+    "stars": 0,
+    "income": "Mixed",
+    "countries": "None",
+    "restaurants": 0
+  }
+]

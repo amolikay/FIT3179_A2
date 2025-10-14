@@ -1,0 +1,101 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 900,
+  "height": 400,
+  "description": "Horizontal bar chart ranking world regions by total Michelin stars. Colour indicates predominant income level. Demonstrates geographic concentration of fine dining recognition with Europe and Asia dominating.",
+  "title": {
+    "text": "Michelin Stars by World Region",
+    "subtitle": [
+      "Regions ranked by total star count; colour shows predominant income level"
+    ],
+    "fontSize": 18,
+    "fontWeight": "bold",
+    "subtitleFontSize": 12,
+    "subtitleFontStyle": "italic"
+  },
+  "data": {
+    "url": "../data/michelin_by_region.json"
+  },
+  "mark": {
+    "type": "bar",
+    "stroke": "white",
+    "strokeWidth": 1,
+    "cornerRadius": 2
+  },
+  "encoding": {
+    "y": {
+      "field": "region",
+      "type": "nominal",
+      "sort": "-x",
+      "title": null,
+      "axis": {
+        "labelFontSize": 12,
+        "labelPadding": 15,
+        "orient": "left"
+      }
+    },
+    "x": {
+      "field": "stars",
+      "type": "quantitative",
+      "title": "Total Michelin Stars",
+      "axis": {
+        "labelFontSize": 11,
+        "grid": true,
+        "gridOpacity": 0.2,
+        "gridColor": "#e2e8f0",
+        "labelAngle": 0,
+        "labelExpr": "datum.value"
+      }
+    },
+    "color": {
+      "field": "income",
+      "type": "nominal",
+      "scale": {
+        "domain": [
+          "High income",
+          "Upper middle income",
+          "Mixed"
+        ],
+        "range": [
+          "#2d3748",
+          "#48bb78",
+          "#cbd5e0"
+        ]
+      },
+      "legend": {
+        "title": "Predominant Income Level",
+        "orient": "top",
+        "labelFontSize": 11,
+        "titleFontSize": 12,
+        "titlePadding": 8
+      }
+    },
+    "tooltip": [
+      {
+        "field": "region",
+        "type": "nominal",
+        "title": "World Region"
+      },
+      {
+        "field": "stars",
+        "type": "quantitative",
+        "title": "Total Michelin Stars"
+      },
+      {
+        "field": "restaurants",
+        "type": "quantitative",
+        "title": "Number of Restaurants"
+      },
+      {
+        "field": "countries",
+        "type": "nominal",
+        "title": "Key Countries"
+      },
+      {
+        "field": "income",
+        "type": "nominal",
+        "title": "Income Classification"
+      }
+    ]
+  }
+}
