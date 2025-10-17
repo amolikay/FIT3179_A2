@@ -1,0 +1,62 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "1. Interactive Global Michelin Star Distribution by Income Group",
+  "width": "container",
+  "height": 450,
+  "data": {
+    "url": "michelin.csv",
+    "format": {"type": "csv"}
+  },
+  "transform": [
+    {"filter": "datum.Latitude != null && datum.Longitude != null"},
+    {"calculate": "trim(split(datum.Location, ', ')[1])", "as": "Country"},
+    {
+      "lookup": "Country",
+      "from": {
+        "data": {"url": "world_bank_classification.csv", "format": {"type": "csv"}},
+        "key": "Economy",
+        "fields": ["Income group"]
+      }
+    }
+  ],
+  "projection": {"type": "equalEarth"},
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/vega/vega-datasets/main/data/world-110m.json",
+        "format": {"type": "topojson", "feature": "countries"}
+      },
+      "mark": {"type": "geoshape", "fill": "#e5e5e5", "stroke": "white"}
+    },
+    {
+      "mark": {"type": "circle", "opacity": 0.7, "stroke": "white", "strokeWidth": 0.5},
+      "encoding": {
+        "longitude": {"field": "Longitude", "type": "quantitative"},
+        "latitude": {"field": "Latitude", "type": "quantitative"},
+        "size": {
+          "field": "Award",
+          "type": "nominal",
+          "title": "Star Rating",
+          "scale": {"range": [5, 50, 100]},
+          "legend": null
+        },
+        "color": {
+          "field": "Income group",
+          "type": "nominal",
+          "title": "Income Group",
+          "scale": {
+            "domain": ["High income", "Upper middle income", "Lower middle income", "Low income"],
+            "range": ["#2d3748", "#48bb78", "#ed8936", "#f56565"]
+          }
+        },
+        "tooltip": [
+          {"field": "Name", "type": "nominal", "title": "Restaurant"},
+          {"field": "Location", "type": "nominal", "title": "City, Country"},
+          {"field": "Award", "type": "nominal", "title": "Award"},
+          {"field": "Income group", "type": "nominal", "title": "Income Group"}
+        ]
+      }
+    }
+  ],
+  "config": {"view": {"stroke": "transparent"}}
+}

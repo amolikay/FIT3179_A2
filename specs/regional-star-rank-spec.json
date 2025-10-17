@@ -1,0 +1,52 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "5. Regional Dominance: Total Michelin Stars by World Region",
+  "width": 450,
+  "height": 300,
+  "data": {
+    "url": "michelin.csv",
+    "format": {"type": "csv"}
+  },
+  "transform": [
+    {"filter": "datum.Award != 'Selected Restaurants'"},
+    {"calculate": "trim(split(datum.Location, ', ')[1])", "as": "Country"},
+    {
+      "lookup": "Country",
+      "from": {
+        "data": {"url": "world_bank_classification.csv", "format": {"type": "csv"}},
+        "key": "Economy",
+        "fields": ["Region"]
+      }
+    },
+    {
+      "calculate": "test(datum.Award, /3/) ? 3 : test(datum.Award, /2/) ? 2 : test(datum.Award, /1/) ? 1 : 0",
+      "as": "Stars"
+    },
+    {"aggregate": [{"op": "sum", "field": "Stars", "as": "TotalStars"}], "groupby": ["Region"]},
+    {"filter": "datum.Region != null && datum.Region != ''"}
+  ],
+  "mark": {"type": "bar", "stroke": "#2d3748", "strokeWidth": 1},
+  "encoding": {
+    "y": {
+      "field": "Region",
+      "type": "nominal",
+      "sort": "-x",
+      "title": null
+    },
+    "x": {
+      "field": "TotalStars",
+      "type": "quantitative",
+      "title": "Total Michelin Stars"
+    },
+    "color": {
+      "field": "TotalStars",
+      "type": "quantitative",
+      "scale": {"scheme": "greens"},
+      "legend": null
+    },
+    "tooltip": [
+      {"field": "Region", "title": "Region"},
+      {"field": "TotalStars", "title": "Total Stars"}
+    ]
+  }
+}

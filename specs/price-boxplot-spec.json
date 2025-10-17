@@ -1,0 +1,55 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "4. Quality vs. Cost: Price Distribution by Star Rating",
+  "width": 450,
+  "height": 300,
+  "data": {
+    "url": "michelin.csv",
+    "format": {"type": "csv"}
+  },
+  "transform": [
+    {"filter": "datum.Award != 'Selected Restaurants'"},
+    {
+      "calculate": "datum.Price == '€' ? 1 : datum.Price == '€€' ? 2 : datum.Price == '€€€' ? 3 : datum.Price == '€€€€' ? 4 : null",
+      "as": "Price_Numeric"
+    },
+    {"filter": "datum.Price_Numeric != null"}
+  ],
+  "mark": {
+    "type": "boxplot",
+    "extent": "min-max",
+    "size": 50,
+    "median": {"color": "white", "strokeWidth": 2},
+    "ticks": true
+  },
+  "encoding": {
+    "x": {
+      "field": "Award",
+      "type": "ordinal",
+      "title": "Star Rating",
+      "sort": ["1 Star", "2 Stars", "3 Stars"],
+      "axis": {"labelAngle": 0}
+    },
+    "y": {
+      "field": "Price_Numeric",
+      "type": "quantitative",
+      "title": "Price Rating (1=€ to 4=€€€€)",
+      "axis": {"ticks": false, "values": [1, 2, 3, 4], "grid": true}
+    },
+    "color": {
+      "field": "Award",
+      "type": "ordinal",
+      "title": "Star Rating",
+      "scale": {
+        "domain": ["1 Star", "2 Stars", "3 Stars"],
+        "range": ["#cbd5e0", "#718096", "#2d3748"]
+      },
+      "legend": null
+    },
+    "tooltip": [
+      {"field": "Award", "type": "ordinal"},
+      {"field": "Price_Numeric", "type": "quantitative", "title": "Price Index (1-4)"},
+      {"field": "Price", "type": "nominal", "title": "Price Symbol"}
+    ]
+  }
+}

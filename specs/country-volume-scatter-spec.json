@@ -1,0 +1,56 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "6. Country Performance: Total Restaurants vs. Total Stars (Top 20)",
+  "width": 450,
+  "height": 300,
+  "data": {
+    "url": "michelin.csv",
+    "format": {"type": "csv"}
+  },
+  "transform": [
+    {"filter": "datum.Award != 'Selected Restaurants'"},
+    {"calculate": "trim(split(datum.Location, ', ')[1])", "as": "Country"},
+    {
+      "calculate": "test(datum.Award, /3/) ? 3 : test(datum.Award, /2/) ? 2 : test(datum.Award, /1/) ? 1 : 0",
+      "as": "Stars"
+    },
+    {
+      "aggregate": [
+        {"op": "sum", "field": "Stars", "as": "TotalStars"},
+        {"op": "count", "as": "RestaurantCount"}
+      ],
+      "groupby": ["Country"]
+    },
+    {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "RestaurantCount", "order": "descending"}]},
+    {"filter": "datum.rank <= 20"}
+  ],
+  "mark": {"type": "point", "filled": true, "opacity": 0.8},
+  "encoding": {
+    "x": {
+      "field": "RestaurantCount",
+      "type": "quantitative",
+      "title": "Total Starred Restaurants"
+    },
+    "y": {
+      "field": "TotalStars",
+      "type": "quantitative",
+      "title": "Total Stars Awarded"
+    },
+    "size": {
+      "field": "RestaurantCount",
+      "scale": {"range": [50, 500]},
+      "legend": null
+    },
+    "color": {
+      "field": "TotalStars",
+      "type": "quantitative",
+      "scale": {"scheme": "blues"},
+      "legend": null
+    },
+    "tooltip": [
+      {"field": "Country", "type": "nominal"},
+      {"field": "RestaurantCount", "type": "quantitative", "title": "Restaurants"},
+      {"field": "TotalStars", "type": "quantitative", "title": "Total Stars"}
+    ]
+  }
+}
