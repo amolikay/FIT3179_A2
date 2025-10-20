@@ -1,35 +1,42 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "1. Interactive Global Michelin Star Distribution by Income Group",
+  "title": "1. Interactive Global Star Distribution by Income Group",
   "width": "container",
   "height": 450,
+  "config": {"font": "Inter"},
+  
+  "params": [
+    {"name": "zoom_pan", "select": {"type": "interval", "translate": "[mousedown, mouseup]", "zoom": "wheel"}, "bind": "scales"}
+  ],
+  "projection": {"type": "equalEarth"},
+  
   "data": {
     "url": "michelin.csv",
     "format": {"type": "csv"}
   },
   "transform": [
-    {"filter": "datum.Latitude != null && datum.Longitude != null"},
+    {"filter": "isValid(datum.Latitude) && isValid(datum.Longitude)"}, 
     {"calculate": "trim(split(datum.Location, ', ')[1])", "as": "Country"},
     {
       "lookup": "Country",
       "from": {
-        "data": {"url": "world_bank_classification.csv", "format": {"type": "csv"}},
+        "data": {"url": "economic_classification.csv", "format": {"type": "csv"}},
         "key": "Economy",
         "fields": ["Income group"]
       }
     }
   ],
-  "projection": {"type": "equalEarth"},
+  
   "layer": [
     {
       "data": {
         "url": "https://raw.githubusercontent.com/vega/vega-datasets/main/data/world-110m.json",
         "format": {"type": "topojson", "feature": "countries"}
       },
-      "mark": {"type": "geoshape", "fill": "#e5e5e5", "stroke": "white"}
+      "mark": {"type": "geoshape", "fill": "#374151", "stroke": "white"} 
     },
     {
-      "mark": {"type": "circle", "opacity": 0.7, "stroke": "white", "strokeWidth": 0.5},
+      "mark": {"type": "circle", "opacity": 0.8, "stroke": "black", "strokeWidth": 0.5},
       "encoding": {
         "longitude": {"field": "Longitude", "type": "quantitative"},
         "latitude": {"field": "Latitude", "type": "quantitative"},
@@ -37,8 +44,7 @@
           "field": "Award",
           "type": "nominal",
           "title": "Star Rating",
-          "scale": {"range": [5, 50, 100]},
-          "legend": null
+          "scale": {"range": [10, 80, 150]}
         },
         "color": {
           "field": "Income group",
@@ -46,8 +52,9 @@
           "title": "Income Group",
           "scale": {
             "domain": ["High income", "Upper middle income", "Lower middle income", "Low income"],
-            "range": ["#2d3748", "#48bb78", "#ed8936", "#f56565"]
-          }
+            "range": ["#f59e0b", "#fcd34d", "#f97316", "#ef4444"]
+          },
+          "legend": {"orient": "bottom"}
         },
         "tooltip": [
           {"field": "Name", "type": "nominal", "title": "Restaurant"},
@@ -57,6 +64,5 @@
         ]
       }
     }
-  ],
-  "config": {"view": {"stroke": "transparent"}}
+  ]
 }

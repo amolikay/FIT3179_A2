@@ -17,7 +17,7 @@
     {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "TotalStars", "order": "descending"}]},
     {"filter": "datum.rank <= 10"}
   ],
-  "mark": {"type": "bar", "stroke": "#2d3748", "strokeWidth": 1},
+  "mark": {"type": "bar", "stroke": "white", "strokeWidth": 1, "color": "#f59e0b"},
   "encoding": {
     "y": {
       "field": "Cuisine",
@@ -29,12 +29,6 @@
       "field": "TotalStars",
       "type": "quantitative",
       "title": "Total Michelin Stars"
-    },
-    "color": {
-      "field": "TotalStars",
-      "type": "quantitative",
-      "scale": {"scheme": "oranges"},
-      "legend": null
     },
     "tooltip": [
       {"field": "Cuisine", "title": "Cuisine Type"},

@@ -13,7 +13,7 @@
     {
       "lookup": "Country",
       "from": {
-        "data": {"url": "world_bank_classification.csv", "format": {"type": "csv"}},
+        "data": {"url": "economic_classification.csv", "format": {"type": "csv"}},
         "key": "Economy",
         "fields": ["Region"]
       }
@@ -25,7 +25,7 @@
     {"aggregate": [{"op": "sum", "field": "Stars", "as": "TotalStars"}], "groupby": ["Region"]},
     {"filter": "datum.Region != null && datum.Region != ''"}
   ],
-  "mark": {"type": "bar", "stroke": "#2d3748", "strokeWidth": 1},
+  "mark": {"type": "bar", "stroke": "white", "strokeWidth": 1, "color": "#f59e0b"},
   "encoding": {
     "y": {
       "field": "Region",
@@ -37,12 +37,6 @@
       "field": "TotalStars",
       "type": "quantitative",
       "title": "Total Michelin Stars"
-    },
-    "color": {
-      "field": "TotalStars",
-      "type": "quantitative",
-      "scale": {"scheme": "greens"},
-      "legend": null
     },
     "tooltip": [
       {"field": "Region", "title": "Region"},

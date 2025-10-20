@@ -27,14 +27,14 @@
   "mark": {"type": "point", "filled": true, "opacity": 0.8},
   "encoding": {
     "x": {
-      "field": "RestaurantCount",
-      "type": "quantitative",
-      "title": "Total Starred Restaurants"
-    },
-    "y": {
       "field": "TotalStars",
       "type": "quantitative",
       "title": "Total Stars Awarded"
+    },
+    "y": {
+      "field": "RestaurantCount",
+      "type": "quantitative",
+      "title": "Total Starred Restaurants"
     },
     "size": {
       "field": "RestaurantCount",
@@ -44,7 +44,7 @@
     "color": {
       "field": "TotalStars",
       "type": "quantitative",
-      "scale": {"scheme": "blues"},
+      "scale": {"scheme": "cividis"},
       "legend": null
     },
     "tooltip": [

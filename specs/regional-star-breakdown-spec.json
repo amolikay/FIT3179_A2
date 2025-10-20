@@ -13,7 +13,7 @@
     {
       "lookup": "Country",
       "from": {
-        "data": {"url": "world_bank_classification.csv", "format": {"type": "csv"}},
+        "data": {"url": "economic_classification.csv", "format": {"type": "csv"}},
         "key": "Economy",
         "fields": ["Region"]
       }
@@ -41,7 +41,7 @@
       "title": "Star Rating",
       "scale": {
         "domain": ["3 Stars", "2 Stars", "1 Star"],
-        "range": ["#2d3748", "#718096", "#cbd5e0"]
+        "range": ["#ef4444", "#f59e0b", "#fcd34d"]
       },
       "legend": {"orient": "bottom", "titleLimit": 300}
     },

@@ -19,8 +19,9 @@
     "type": "boxplot",
     "extent": "min-max",
     "size": 50,
-    "median": {"color": "white", "strokeWidth": 2},
-    "ticks": true
+    "median": {"color": "white", "strokeWidth": 2, "stroke": "#1f2937"},
+    "ticks": true,
+    "color": "#f59e0b" 
   },
   "encoding": {
     "x": {
@@ -42,7 +43,7 @@
       "title": "Star Rating",
       "scale": {
         "domain": ["1 Star", "2 Stars", "3 Stars"],
-        "range": ["#cbd5e0", "#718096", "#2d3748"]
+        "range": ["#fcd34d", "#f59e0b", "#ef4444"]
       },
       "legend": null
     },
