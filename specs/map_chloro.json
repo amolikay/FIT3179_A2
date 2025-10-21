@@ -1,0 +1,108 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Michelin Star Breakdown: France vs. Spain",
+    "subtitle": "Count of 1-Star, 2-Stars, and 3-Stars restaurants"
+  },
+  "data": {
+    "values": [
+      {
+        "Country": "France",
+        "Award": "1 Star",
+        "Count": 613
+      },
+      {
+        "Country": "France",
+        "Award": "2 Stars",
+        "Count": 93
+      },
+      {
+        "Country": "France",
+        "Award": "3 Stars",
+        "Count": 33
+      },
+      {
+        "Country": "Spain",
+        "Award": "1 Star",
+        "Count": 264
+      },
+      {
+        "Country": "Spain",
+        "Award": "2 Stars",
+        "Count": 36
+      },
+      {
+        "Country": "Spain",
+        "Award": "3 Stars",
+        "Count": 16
+      }
+    ]
+  },
+  "mark": "bar",
+  "encoding": {
+    "x": {
+      "field": "Award",
+      "type": "nominal",
+      "title": "Star Rating",
+      "sort": [
+        "3 Stars",
+        "2 Stars",
+        "1 Star"
+      ]
+    },
+    "y": {
+      "field": "Count",
+      "type": "quantitative",
+      "title": "Number of Restaurants"
+    },
+    "color": {
+      "field": "Award",
+      "type": "nominal",
+      "title": "Star Rating",
+      "scale": {
+        "domain": [
+          "3 Stars",
+          "2 Stars",
+          "1 Star"
+        ],
+        "range": [
+          "#ef4444",
+          "#f59e0b",
+          "#fcd34d"
+        ]
+      },
+      "legend": null
+    },
+    "column": {
+      "field": "Country",
+      "header": {
+        "titleOrient": "bottom",
+        "labelOrient": "bottom"
+      },
+      "spacing": 20
+    },
+    "tooltip": [
+      {
+        "field": "Country",
+        "title": "Country"
+      },
+      {
+        "field": "Award",
+        "title": "Star Rating"
+      },
+      {
+        "field": "Count",
+        "type": "quantitative",
+        "title": "Count"
+      }
+    ]
+  },
+  "config": {
+    "view": {
+      "stroke": null
+    },
+    "axis": {
+      "grid": false
+    }
+  }
+}

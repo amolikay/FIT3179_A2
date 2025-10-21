@@ -1,56 +1,90 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "6. Country Performance: Total Restaurants vs. Total Stars (Top 20)",
+  "title": {
+    "text": "Top 10 Cuisine Popularity by Total Michelin Stars",
+    "subtitle": "Total stars awarded across all 1, 2, and 3-star restaurants"
+  },
   "width": 450,
-  "height": 300,
+  "height": 350,
   "data": {
     "url": "michelin.csv",
-    "format": {"type": "csv"}
+    "format": {
+      "type": "csv"
+    }
   },
   "transform": [
-    {"filter": "datum.Award != 'Selected Restaurants'"},
-    {"calculate": "trim(split(datum.Location, ', ')[1])", "as": "Country"},
+    {
+      "filter": "datum.Award != 'Selected Restaurants'"
+    },
     {
       "calculate": "test(datum.Award, /3/) ? 3 : test(datum.Award, /2/) ? 2 : test(datum.Award, /1/) ? 1 : 0",
       "as": "Stars"
     },
     {
       "aggregate": [
-        {"op": "sum", "field": "Stars", "as": "TotalStars"},
-        {"op": "count", "as": "RestaurantCount"}
+        {
+          "op": "sum",
+          "field": "Stars",
+          "as": "TotalStars"
+        }
       ],
-      "groupby": ["Country"]
+      "groupby": [
+        "Cuisine"
+      ]
     },
-    {"window": [{"op": "rank", "as": "rank"}], "sort": [{"field": "RestaurantCount", "order": "descending"}]},
-    {"filter": "datum.rank <= 20"}
+    {
+      "window": [
+        {
+          "op": "rank",
+          "as": "rank"
+        }
+      ],
+      "sort": [
+        {
+          "field": "TotalStars",
+          "order": "descending"
+        }
+      ]
+    },
+    {
+      "filter": "datum.rank <= 10"
+    }
   ],
-  "mark": {"type": "point", "filled": true, "opacity": 0.8},
+  "mark": {
+    "type": "bar",
+    "stroke": "white",
+    "strokeWidth": 1,
+    "color": "#f59e0b"
+  },
   "encoding": {
+    "y": {
+      "field": "Cuisine",
+      "type": "nominal",
+      "sort": "-x",
+      "title": null
+    },
     "x": {
       "field": "TotalStars",
       "type": "quantitative",
-      "title": "Total Stars Awarded"
-    },
-    "y": {
-      "field": "RestaurantCount",
-      "type": "quantitative",
-      "title": "Total Starred Restaurants"
-    },
-    "size": {
-      "field": "RestaurantCount",
-      "scale": {"range": [50, 500]},
-      "legend": null
-    },
-    "color": {
-      "field": "TotalStars",
-      "type": "quantitative",
-      "scale": {"scheme": "cividis"},
-      "legend": null
+      "title": "Total Michelin Stars"
     },
     "tooltip": [
-      {"field": "Country", "type": "nominal"},
-      {"field": "RestaurantCount", "type": "quantitative", "title": "Restaurants"},
-      {"field": "TotalStars", "type": "quantitative", "title": "Total Stars"}
+      {
+        "field": "Cuisine",
+        "title": "Cuisine Type"
+      },
+      {
+        "field": "TotalStars",
+        "title": "Total Stars"
+      }
     ]
+  },
+  "config": {
+    "axis": {
+      "grid": false
+    },
+    "view": {
+      "stroke": null
+    }
   }
 }

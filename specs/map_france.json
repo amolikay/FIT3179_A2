@@ -1,12 +1,16 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 900,
-  "height": 480,
-  "projection": {"type": "equalEarth"},
+  "width": 450,
+  "height": 450,
   "title": {
-    "text": "Michelin-Starred Restaurants by Country (Interactive Map)",
-    "fontSize": 18,
-    "anchor": "middle"
+    "fontSize": 16,
+    "anchor": "middle",
+    "text": "Michelin-Starred Restaurants in France"
+  },
+  "projection": {
+    "type": "equalEarth",
+    "center": [2, 46], 
+    "scale": 1500
   },
   "layer": [
     {
@@ -16,16 +20,24 @@
       },
       "mark": {
         "type": "geoshape",
-        "fill": "#efefef",
-        "stroke": "#ffffff"
-      }
+        "fill": "#b45547", 
+        "stroke": "#44403c", 
+        "strokeWidth": 1.5 
+      },
+      "transform": [
+        {"filter": "datum.properties.name == 'France'"}
+      ]
     },
     {
       "data": {"url": "michelin.csv"},
+      "transform": [
+        {"calculate": "trim(split(datum.Location, ', ')[1])", "as": "Country"},
+        {"filter": "datum.Country == 'France'"}
+      ],
       "mark": {
         "type": "circle",
         "opacity": 0.8,
-        "stroke": "white",
+        "stroke": "black", 
         "strokeWidth": 0.5
       },
       "encoding": {
@@ -46,7 +58,7 @@
           "legend": {"title": "Award"},
           "scale": {
             "domain": ["1 Star", "2 Stars", "3 Stars"],
-            "range": ["#ffd700", "#c0c0c0", "#b87333"]
+            "range": ["#fcd34d", "#f59e0b", "#ef4444"]
           }
         },
         "tooltip": [
@@ -63,6 +75,6 @@
     "background": null
   },
   "usermeta": {
-    "description": "Interactive map showing Michelin-starred restaurants worldwide, sized and coloured by star rating."
+    "description": "Interactive map showing Michelin-starred restaurants in France, sized and coloured by star rating."
   }
 }

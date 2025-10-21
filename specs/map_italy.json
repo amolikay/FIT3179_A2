@@ -1,12 +1,16 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 900,
-  "height": 480,
-  "projection": {"type": "equalEarth"},
+  "width": 450,
+  "height": 450,
   "title": {
-    "text": "Michelin-Starred Restaurants by Country (Interactive Map)",
-    "fontSize": 18,
-    "anchor": "middle"
+    "fontSize": 16,
+    "anchor": "middle",
+    "text": "Michelin-Starred Restaurants in Italy"
+  },
+  "projection": {
+    "type": "equalEarth",
+    "center": [12.5, 42], 
+    "scale": 1500
   },
   "layer": [
     {
@@ -18,10 +22,17 @@
         "type": "geoshape",
         "fill": "#efefef",
         "stroke": "#ffffff"
-      }
+      },
+      "transform": [
+        {"filter": "datum.properties.name == 'Italy'"} 
+      ]
     },
     {
       "data": {"url": "michelin.csv"},
+      "transform": [
+        {"calculate": "trim(split(datum.Location, ', ')[1])", "as": "Country"},
+        {"filter": "datum.Country == 'Italy'"}
+      ],
       "mark": {
         "type": "circle",
         "opacity": 0.8,
@@ -46,7 +57,7 @@
           "legend": {"title": "Award"},
           "scale": {
             "domain": ["1 Star", "2 Stars", "3 Stars"],
-            "range": ["#ffd700", "#c0c0c0", "#b87333"]
+            "range": ["#fcd34d", "#f59e0b", "#ef4444"]
           }
         },
         "tooltip": [
@@ -61,8 +72,5 @@
   "config": {
     "view": {"stroke": null},
     "background": null
-  },
-  "usermeta": {
-    "description": "Interactive map showing Michelin-starred restaurants worldwide, sized and coloured by star rating."
   }
 }
