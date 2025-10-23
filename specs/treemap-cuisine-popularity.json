@@ -29,13 +29,26 @@
   ],
   "mark": {"type": "bar", "cornerRadiusEnd": 4},
   "encoding": {
-    "y": {"field": "CuisineList", "type": "nominal", "sort": "-x"},
-    "x": {"field": "RestaurantCount", "type": "quantitative"},
+    "y": {"field": "CuisineList", "type": "nominal", "sort": "-x", "title": "Cuisine"},
+    "x": {"field": "RestaurantCount", "type": "quantitative", "title": "Number of Restaurants"},
     "color": {
       "field": "RestaurantCount",
       "type": "quantitative",
       "scale": {"scheme": "yelloworangered"},
-      "legend": {"title": "Restaurant Count"}
+      "legend": {
+        "title": "Restaurant Count",
+        "orient": "none",
+        "legendX": 780,
+        "legendY": 200,
+        "direction": "vertical",
+        "titleFontSize": 12,
+        "labelFontSize": 11,
+        "titlePadding": 5,
+        "fillColor": "white",
+        "strokeColor": "#e5e5e5",
+        "padding": 10,
+        "cornerRadius": 5
+      }
     },
     "tooltip": [
       {"field": "CuisineList", "title": "Cuisine"},

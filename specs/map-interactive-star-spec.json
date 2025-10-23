@@ -1,14 +1,15 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 900,
-  "height": 480,
+  "width": "container",
+  "height": 500,
   "projection": {"type": "equalEarth"},
   "title": {
     "text": "Michelin-Starred Restaurants by Country",
     "font": "Playfair Display",
     "fontSize": 18,
     "anchor": "start",
-    "color": "#44403c"},
+    "color": "#44403c"
+  },
   "layer": [
     {
       "data": {
@@ -35,7 +36,7 @@
         "size": {
           "field": "Award",
           "type": "nominal",
-          "legend": {"title": "Michelin Stars"},
+          "legend": null,
           "scale": {
             "domain": ["1 Star", "2 Stars", "3 Stars"],
             "range": [40, 90, 160]
@@ -44,10 +45,23 @@
         "color": {
           "field": "Award",
           "type": "nominal",
-          "legend": {"title": "Award"},
+          "legend": {
+            "title": "Award, Michelin Stars",
+            "orient": "none",
+            "legendX": 120,
+            "legendY": 200,
+            "direction": "vertical",
+            "titleFontSize": 12,
+            "labelFontSize": 11,
+            "symbolSize": 100,
+            "fillColor": "white",
+            "strokeColor": "#e5e5e5",
+            "padding": 10,
+            "cornerRadius": 5
+          },
           "scale": {
             "domain": ["1 Star", "2 Stars", "3 Stars"],
-            "range": ["#f59e0b", "#fcd34d","#ef4444"]
+            "range": ["#f59e0b", "#fcd34d", "#ef4444"]
           }
         },
         "tooltip": [
