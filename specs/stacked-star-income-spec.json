@@ -1,0 +1,59 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Star Rating Breakdown by Income Group",
+    "font": "Playfair Display",
+    "fontSize": 18,
+    "anchor": "start",
+    "color": "#44403c"},
+  "width": "container",
+  "height": 300,
+  "data": {
+    "url": "michelin.csv",
+    "format": {"type": "csv"}
+  },
+  "transform": [
+    {"calculate": "trim(split(datum.Location, ', ')[1])", "as": "Country"},
+    {
+      "lookup": "Country",
+      "from": {
+        "data": {"url": "economic_classification.csv", "format": {"type": "csv"}},
+        "key": "Economy",
+        "fields": ["Income group"]
+      }
+    },
+    {"filter": "datum['Income group'] != null && datum.Award != 'Selected Restaurants'"},
+    {"aggregate": [{"op": "count", "as": "RestaurantCount"}], "groupby": ["Income group", "Award"]}
+  ],
+  "mark": "bar",
+  "encoding": {
+    "y": {
+      "field": "Income group",
+      "type": "nominal",
+      "sort": ["High income", "Upper middle income", "Lower middle income", "Low income"],
+      "title": null
+    },
+    "x": {
+      "field": "RestaurantCount",
+      "type": "quantitative",
+      "stack": "normalize",
+      "title": "Proportion of Restaurants (Normalized)",
+      "axis": {"format": ".0%"}
+    },
+    "color": {
+      "field": "Award",
+      "type": "nominal",
+      "title": "Star Rating",
+      "scale": {
+        "domain": ["3 Stars", "2 Stars", "1 Star"],
+        "range": ["#ef4444", "#f59e0b", "#fcd34d"]
+      },
+      "legend": {"orient": "bottom", "titleLimit": 300}
+    },
+    "tooltip": [
+      {"field": "Income group", "title": "Income Group"},
+      {"field": "Award", "title": "Star Rating"},
+      {"field": "RestaurantCount", "title": "Count", "type": "quantitative"}
+    ]
+  }
+}

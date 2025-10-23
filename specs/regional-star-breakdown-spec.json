@@ -1,0 +1,59 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Regional Star Breakdown (1-Star, 2-Stars, 3-Stars)",
+    "font": "Playfair Display",
+    "fontSize": 18,
+    "anchor": "start",
+    "color": "#44403c"},
+  "width": "container",
+  "height": 300,
+  "data": {
+    "url": "michelin.csv",
+    "format": {"type": "csv"}
+  },
+  "transform": [
+    {"filter": "datum.Award != 'Selected Restaurants'"},
+    {"calculate": "trim(split(datum.Location, ', ')[1])", "as": "Country"},
+    {
+      "lookup": "Country",
+      "from": {
+        "data": {"url": "economic_classification.csv", "format": {"type": "csv"}},
+        "key": "Economy",
+        "fields": ["Region"]
+      }
+    },
+    {"filter": "datum.Region != null && datum.Region != ''"},
+    {"aggregate": [{"op": "count", "as": "RestaurantCount"}], "groupby": ["Region", "Award"]},
+    {"window": [{"op": "sum", "field": "RestaurantCount", "as": "TotalRegionCount"}], "groupby": ["Region"]}
+  ],
+  "mark": "bar",
+  "encoding": {
+    "y": {
+      "field": "Region",
+      "type": "nominal",
+      "sort": {"field": "TotalRegionCount", "order": "descending"},
+      "title": null
+    },
+    "x": {
+      "field": "RestaurantCount",
+      "type": "quantitative",
+      "title": "Number of Restaurants"
+    },
+    "color": {
+      "field": "Award",
+      "type": "nominal",
+      "title": "Star Rating",
+      "scale": {
+        "domain": ["3 Stars", "2 Stars", "1 Star"],
+        "range": ["#ef4444", "#f59e0b", "#fcd34d"]
+      },
+      "legend": {"orient": "bottom", "titleLimit": 300}
+    },
+    "tooltip": [
+      {"field": "Region", "title": "Region"},
+      {"field": "Award", "title": "Star Rating"},
+      {"field": "RestaurantCount", "title": "Count", "type": "quantitative"}
+    ]
+  }
+}

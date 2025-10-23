@@ -1,0 +1,83 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Distribution of Michelin Stars",
+    "font": "Playfair Display",
+    "fontSize": 18,
+    "anchor": "start",
+    "color": "#44403c"
+  },
+  
+  "width": 400,
+  "height": 400,
+  "data": {
+    "values": [
+      {
+        "Award": "3 Stars",
+        "Count": 170
+      },
+      {
+        "Award": "2 Stars",
+        "Count": 591
+      },
+      {
+        "Award": "1 Star",
+        "Count": 3547
+      }
+    ]
+  },
+  "mark": {
+    "type": "arc",
+    "outerRadius": 180,
+    "innerRadius": 100
+  },
+  "encoding": {
+    "theta": {
+      "field": "Count",
+      "type": "quantitative",
+      "stack": true
+    },
+    "order": {
+      "field": "Award",
+      "sort": "descending"
+    },
+    "color": {
+      "field": "Award",
+      "type": "nominal",
+      "title": "Star Rating",
+      "scale": {
+        "domain": [
+          "3 Stars",
+          "2 Stars",
+          "1 Star"
+        ],
+        "range": [
+          "#ef4444",
+          "#f59e0b",
+          "#fcd34d"
+        ]
+      }
+    },
+    "tooltip": [
+      {
+        "field": "Award",
+        "title": "Star Rating"
+      },
+      {
+        "field": "Count",
+        "type": "quantitative",
+        "title": "Restaurants"
+      },
+      {
+        "field": "Count",
+        "title": "Proportion",
+        "type": "quantitative",
+        "format": ".1%",
+        "stack": "normalize"
+      }
+    ]
+  },
+  "view": {
+    "stroke": null
+  }
+}

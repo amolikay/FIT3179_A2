@@ -1,0 +1,83 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 500,
+  "projection": {"type": "equalEarth"},
+  "title": {
+    "text": "Michelin-Starred Restaurants by Country",
+    "font": "Playfair Display",
+    "fontSize": 18,
+    "anchor": "start",
+    "color": "#44403c"
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "https://vega.github.io/vega-datasets/data/world-110m.json",
+        "format": {"type": "topojson", "feature": "countries"}
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#efefef",
+        "stroke": "#ffffff"
+      }
+    },
+    {
+      "data": {"url": "michelin.csv"},
+      "mark": {
+        "type": "circle",
+        "opacity": 0.8,
+        "stroke": "white",
+        "strokeWidth": 0.5
+      },
+      "encoding": {
+        "longitude": {"field": "Longitude", "type": "quantitative"},
+        "latitude": {"field": "Latitude", "type": "quantitative"},
+        "size": {
+          "field": "Award",
+          "type": "nominal",
+          "legend": null,
+          "scale": {
+            "domain": ["1 Star", "2 Stars", "3 Stars"],
+            "range": [40, 90, 160]
+          }
+        },
+        "color": {
+          "field": "Award",
+          "type": "nominal",
+          "legend": {
+            "title": "Award, Michelin Stars",
+            "orient": "none",
+            "legendX": 120,
+            "legendY": 200,
+            "direction": "vertical",
+            "titleFontSize": 12,
+            "labelFontSize": 11,
+            "symbolSize": 100,
+            "fillColor": "white",
+            "strokeColor": "#e5e5e5",
+            "padding": 10,
+            "cornerRadius": 5
+          },
+          "scale": {
+            "domain": ["1 Star", "2 Stars", "3 Stars"],
+            "range": ["#f59e0b", "#fcd34d", "#ef4444"]
+          }
+        },
+        "tooltip": [
+          {"field": "Name", "type": "nominal", "title": "Restaurant"},
+          {"field": "Location", "type": "nominal"},
+          {"field": "Cuisine", "type": "nominal"},
+          {"field": "Award", "type": "nominal"}
+        ]
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": null},
+    "background": null
+  },
+  "usermeta": {
+    "description": "Interactive map showing Michelin-starred restaurants worldwide, sized and coloured by star rating."
+  }
+}
