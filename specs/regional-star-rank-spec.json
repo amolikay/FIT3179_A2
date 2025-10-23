@@ -1,6 +1,11 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "5. Regional Dominance: Total Michelin Stars by World Region",
+  "title": {
+    "text": "Total Michelin Stars by World Region",
+    "font": "Playfair Display",
+    "fontSize": 18,
+    "anchor": "start",
+    "color": "#44403c"},
   "width": 450,
   "height": 300,
   "data": {

@@ -1,6 +1,11 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "2. Economic Concentration: Star Rating Breakdown by Income Group",
+  "title": {
+    "text": "Star Rating Breakdown by Income Group",
+    "font": "Playfair Display",
+    "fontSize": 18,
+    "anchor": "start",
+    "color": "#44403c"},
   "width": "container",
   "height": 300,
   "data": {
@@ -41,7 +46,7 @@
       "title": "Star Rating",
       "scale": {
         "domain": ["3 Stars", "2 Stars", "1 Star"],
-        "range": ["#ef4444", "#f59e0b", "#fef3c7"]
+        "range": ["#ef4444", "#f59e0b", "#fcd34d"]
       },
       "legend": {"orient": "bottom", "titleLimit": 300}
     },

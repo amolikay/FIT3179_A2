@@ -1,6 +1,11 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "7. Regional Star Breakdown (1-Star, 2-Stars, 3-Stars)",
+  "title": {
+    "text": "Regional Star Breakdown (1-Star, 2-Stars, 3-Stars)",
+    "font": "Playfair Display",
+    "fontSize": 18,
+    "anchor": "start",
+    "color": "#44403c"},
   "width": "container",
   "height": 300,
   "data": {

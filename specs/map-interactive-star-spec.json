@@ -4,10 +4,11 @@
   "height": 480,
   "projection": {"type": "equalEarth"},
   "title": {
-    "text": "Michelin-Starred Restaurants by Country (Interactive Map)",
+    "text": "Michelin-Starred Restaurants by Country",
+    "font": "Playfair Display",
     "fontSize": 18,
-    "anchor": "middle"
-  },
+    "anchor": "start",
+    "color": "#44403c"},
   "layer": [
     {
       "data": {
@@ -46,7 +47,7 @@
           "legend": {"title": "Award"},
           "scale": {
             "domain": ["1 Star", "2 Stars", "3 Stars"],
-            "range": ["#ffd700", "#c0c0c0", "#b87333"]
+            "range": ["#f59e0b", "#fcd34d","#ef4444"]
           }
         },
         "tooltip": [

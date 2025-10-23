@@ -1,0 +1,49 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Top 20 cuisines by number of Michelin-starred restaurants.",
+  "title": {
+    "text": "Cuisine Popularity among Michelin-Starred Restaurants",
+    "font": "Playfair Display",
+    "fontSize": 18,
+    "anchor": "start",
+    "color": "#44403c"
+  },
+  "width": "container",
+  "height": 500,
+  "data": {"url": "michelin.csv"},
+  "transform": [
+    {
+      "calculate": "split(datum.Cuisine, ', ')",
+      "as": "CuisineList"
+    },
+    {"flatten": ["CuisineList"]},
+    {
+      "aggregate": [{"op": "count", "as": "RestaurantCount"}],
+      "groupby": ["CuisineList"]
+    },
+    {
+      "window": [{"op": "rank", "as": "rank"}],
+      "sort": [{"field": "RestaurantCount", "order": "descending"}]
+    },
+    {"filter": "datum.rank <= 20"}
+  ],
+  "mark": {"type": "bar", "cornerRadiusEnd": 4},
+  "encoding": {
+    "y": {"field": "CuisineList", "type": "nominal", "sort": "-x"},
+    "x": {"field": "RestaurantCount", "type": "quantitative"},
+    "color": {
+      "field": "RestaurantCount",
+      "type": "quantitative",
+      "scale": {"scheme": "yelloworangered"},
+      "legend": {"title": "Restaurant Count"}
+    },
+    "tooltip": [
+      {"field": "CuisineList", "title": "Cuisine"},
+      {"field": "RestaurantCount", "title": "Count"}
+    ]
+  },
+  "config": {
+    "view": {"stroke": "transparent"},
+    "axis": {"labelFont": "Inter", "titleFont": "Inter"}
+  }
+}

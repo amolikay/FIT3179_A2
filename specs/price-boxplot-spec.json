@@ -1,6 +1,11 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "title": "4. Quality vs. Cost: Price Distribution by Star Rating",
+  "title": {
+    "text": "Price Distribution by Star Rating",
+    "font": "Playfair Display",
+    "fontSize": 18,
+    "anchor": "start",
+    "color": "#44403c"},
   "width": 450,
   "height": 300,
   "data": {
